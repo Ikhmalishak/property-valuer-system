@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_owners_table
-        Schema::create('owners', function (Blueprint $table) {
+        Schema::create('application_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
             $table->string('name');
-            $table->string('phone');
-            $table->timestamps();
+            $table->string('description')->nullable();
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('owners');
+        Schema::dropIfExists('application_statuses');
     }
 };
