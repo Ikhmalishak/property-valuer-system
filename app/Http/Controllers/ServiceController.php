@@ -12,15 +12,20 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        //view all services
+        $services = Service::all();
+        return view('services.index', compact('services'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function showForm($id)
     {
-        //
+        //find service by id
+        $service = Service::findOrFail($id);
+        //return view payment form
+        return view('payments.payment-form', compact('service'));
     }
 
     /**

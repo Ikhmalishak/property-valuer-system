@@ -26,11 +26,6 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone');
             $table->text('additional_info')->nullable();
-
-            // Application meta
-            $table->timestamp('submission_date')->useCurrent();
-            $table->timestamp('last_updated')->useCurrent();
-
             $table->timestamps();
         });
     }
