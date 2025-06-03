@@ -13,6 +13,7 @@
         <ul class="flex space-x-8 rtl:space-x-reverse">
           <li><a href="#" class="text-gray-900 hover:text-blue-700">Home</a></li>
           <li><a href="#" class="text-gray-900 hover:text-blue-700">About</a></li>
+          <li><a href="#" class="text-gray-900 hover:text-blue-700">Muat Turun</a></li>
           <li><a href="#" class="text-gray-900 hover:text-blue-700">Services</a></li>
           <li><a href="#" class="text-gray-900 hover:text-blue-700">Contact</a></li>
         </ul>

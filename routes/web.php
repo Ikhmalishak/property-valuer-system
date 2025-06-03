@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,7 @@ use App\Http\Controllers\ServiceController;
 
 // Public landing page
 Route::get('/', function () {
-    return view('welcome');
+    return view('dokumen');
 });
 
 // Authenticated user routes
@@ -48,3 +49,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Auth routes
 require __DIR__ . '/auth.php';
+
+
+Route::get('/', [DocumentController::class, 'index'])->name('documents');
+Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
+Route::get('/documents/search', [DocumentController::class, 'search'])->name('documents.search');
+Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
+
+// Admin routes (you might want to add middleware for authentication)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/documents/create', [DocumentController::class, 'create'])->name('documents.create');
+    Route::post('/admin/documents', [DocumentController::class, 'store'])->name('documents.store');
+    Route::delete('/admin/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+});
+

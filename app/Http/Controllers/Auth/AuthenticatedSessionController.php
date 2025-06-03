@@ -28,6 +28,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = Auth::user();
+
+        // Check if the logged-in user is an admin (role = 1)
+        if ($user->role == 1) {
+            Auth::logout(); // Logout the user
+            return redirect()->route('login')->withErrors([
+                'email' => 'Admins are not allowed to access this dashboard.',
+            ]);
+        }
+
+        // If user is not admin, proceed to dashboard
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
