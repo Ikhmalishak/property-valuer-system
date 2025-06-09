@@ -2,11 +2,8 @@
     <!DOCTYPE html>
 {{-- ===== 2. DOCUMENTS INDEX PAGE ===== --}}
 {{-- resources/views/documents/index.blade.php --}}
-@extends('layouts.app')
-
 @section('title', 'Muat Turun Dokumen Rasmi')
-
-@section('content')
+ 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex gap-8">
         <!-- Sidebar -->
@@ -139,7 +136,7 @@
 
                     @if($documents->count() > 0)
                         <div class="space-y-4" id="document-results">
-                            @include('document-list', ['documents' => $documents])
+                            @include('document_list', ['documents' => $documents])
                         </div>
                         <div class="mt-8">
                             {{ $documents->appends(request()->query())->links() }}

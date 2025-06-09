@@ -3,6 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DocumentResource\Pages;
+
+use App\Filament\Resources\DocumentResource\Pages\CreateDocument;
+use App\Filament\Resources\DocumentResource\Pages\EditDocument;
+use App\Filament\Resources\DocumentResource\Pages\ListDocuments;
 use App\Filament\Resources\DocumentResource\RelationManagers;
 use App\Models\Document;
 use Filament\Forms;
@@ -90,7 +94,7 @@ class DocumentResource extends Resource
         ];
     }
 
-    public static function getPages(): array
+    public static function getPages(): array 
     {
         return [
             'index' => Pages\ListDocuments::route('/'),

@@ -3,33 +3,47 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceResource\Pages;
-use App\Filament\Resources\ServiceResource\RelationManagers;
 use App\Models\Service;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 
 class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // Use a valid icon
+    protected static ?string $navigationIcon = 'heroicon-o-document';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-           
-        TextInput::make('name')->helperText('Your full name here, including any middle names.'),
-        
-        
-    FileUpload::make('attachment')
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255)
+                    ->label('Service Name'),
+
+                Textarea::make('description')
+                    ->required()
+                    ->label('Description'),
+
+                TextInput::make('price')
+                    ->numeric()
+                    ->required()
+                    ->placeholder('$0.00')
+                    ->minValue(0),
+
+                Toggle::make('is_active')
+                    ->required()
+                    ->label('Is Active'),
             ]);
     }
 
@@ -37,17 +51,31 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id')->sortable()->searchable(),
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('price')
+                    ->formatStateUsing(fn ($state) => '$' . number_format($state, 2))
+                    ->sortable(),
+                TextColumn::make('description')->limit(50)->wrap(),
+                TextColumn::make('is_active')
+                    ->label('Active')
+                    ->formatStateUsing(fn ($state) => $state ? 'Yes' : 'No'),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -68,4 +96,3 @@ class ServiceResource extends Resource
         ];
     }
 }
- 
