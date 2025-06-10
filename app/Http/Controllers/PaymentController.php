@@ -97,6 +97,7 @@ class PaymentController extends Controller
     public function success(Payment $payment)
     {
         $payment->update(['status' => 'completed']);
+        $payment ->user->notify(new \App\Notifications\InvoiceNotification($payment));
         return view('payments.success', compact('payment'));
     }
 

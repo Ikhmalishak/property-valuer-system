@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +29,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Stripe Cashier product checkout test
-    Route::get('/product-checkout', function (Request $request) {
-        return $request->user()->checkout([
-            'price_1RSwLvEQkRdPgJrgUwF2bKTb' => 1 // Make sure this is a valid Stripe Price ID
-        ]);
-    });
-
     // Services routes
     Route::get('/services', [ServiceController::class, 'index'])->name('services');
     Route::get('/services/{service}', [ServiceController::class, 'showForm'])->name('services.showForm');
@@ -44,6 +38,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/payments/{service}', [PaymentController::class, 'pay'])->name('payments.pay');
     Route::get('/payment/{payment}/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/payment/{payment}/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+
+    // Document routes
+    Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
+    Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
+    Route::get('/documents/download/{path}', [DocumentController::class, 'download'])->where('path', '.*');
 });
 
 // Auth routes
