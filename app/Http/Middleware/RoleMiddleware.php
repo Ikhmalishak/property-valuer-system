@@ -21,8 +21,8 @@ class RoleMiddleware
     private function resolveRoleValue($role)
     {
         return match ($role) {
-            'user' => 0,
-            'admin' => 1,
+            'user' => 1,
+            'admin' => 0,
             default => null,
         };
     }

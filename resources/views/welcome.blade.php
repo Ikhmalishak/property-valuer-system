@@ -1,4 +1,7 @@
 <x-layouts.app>
+    <x-slot name="header">
+        @include('includes.header')
+    </x-slot>
     <main class="container mx-auto px-4 py-8">
         <!-- Hero Section -->
         <section class="bg-white rounded-lg shadow-lg overflow-hidden mb-10">

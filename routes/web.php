@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\DocumentController;
+use Vormkracht10\Mails\Models\Mail;
+use Illuminate\Support\Facades\Auth;
 
 // Public landing page
 Route::get('/', function () {
@@ -13,10 +16,15 @@ Route::get('/', function () {
 
 // Authenticated user routes
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('welcome');
-    })->name('dashboard');
+   Route::get('/dashboard', function () {
+    $user = Auth::user();
 
+    if ($user->role == 0) {
+        return redirect()->route('admin');
+    } else {
+        return redirect()->route('services');
+    }
+})->middleware(['auth'])->name('dashboard');
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -38,9 +46,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/payments/{service}', [PaymentController::class, 'pay'])->name('payments.pay');
     Route::get('/payment/{payment}/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/payment/{payment}/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+
+    Route::get('/document', [DocumentController::class, 'index'])->name('documents');
+    Route::get('/documents/search', [DocumentController::class, 'search'])->name('documents.search');
+
 });
 
-use Vormkracht10\Mails\Models\Mail;
+Route::post('/admin/logout', function (\Illuminate\Http\Request $request) {
+    Auth::guard('admin')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/'); // ✅ Redirect to services or any route
+})->name('filament.admin.auth.logout');
+
+
 
 Route::get('/test-mail', function () {
     return \Vormkracht10\Mails\Models\Mail::count();

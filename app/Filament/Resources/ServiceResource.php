@@ -51,7 +51,6 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable()->searchable(),
                 TextColumn::make('name')->sortable()->searchable(),
                 TextColumn::make('price')
                     ->formatStateUsing(fn ($state) => '$' . number_format($state, 2))

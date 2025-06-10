@@ -22,25 +22,23 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+public function store(LoginRequest $request): RedirectResponse
+{
+    $request->authenticate();
 
-        $request->session()->regenerate();
+    $request->session()->regenerate();
 
-        $user = Auth::user();
+    $user = Auth::user();
 
-        // Check if the logged-in user is an admin (role = 1)
-        if ($user->role == 1) {
-            Auth::logout(); // Logout the user
-            return redirect()->route('login')->withErrors([
-                'email' => 'Admins are not allowed to access this dashboard.',
-            ]);
-        }
-
-        // If user is not admin, proceed to dashboard
-        return redirect()->intended(route('dashboard', absolute: false));
+    // If user is an admin (role == 0), redirect to /admin
+    if ($user->role == 0) {
+        return redirect()->to('admin');
     }
+
+    // If user is not admin, redirect to the services page
+    return redirect()->route('services');
+}
+
 
     /**
      * Destroy an authenticated session.

@@ -1,9 +1,9 @@
+
 <x-layouts.app>
-    <!DOCTYPE html>
+        <x-slot name="header">
+        @include('includes.usernav')
+    </x-slot>
 {{-- ===== 2. DOCUMENTS INDEX PAGE ===== --}}
-{{-- resources/views/documents/index.blade.php --}}
-@section('title', 'Muat Turun Dokumen Rasmi')
- 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex gap-8">
         <!-- Sidebar -->
@@ -181,6 +181,4 @@ function setYear(year) {
 }
 </script>
 @endpush
-
-</html>
 </x-layouts.app>

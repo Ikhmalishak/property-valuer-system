@@ -21,7 +21,8 @@
 </head>
 
 <body class="antialiased">
-    <x-header /> <!-- Add this line -->
+      {{ $header ?? '' }}
+    
 
     {{ $slot }}
 

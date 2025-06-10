@@ -12,13 +12,7 @@ class TestEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(public $user, public $invoice) {}
 
     /**
      * Get the envelope for the message.
@@ -26,7 +20,7 @@ class TestEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Test Email from Laravel',
+            subject: 'Invoice Reminder',
         );
     }
 
@@ -37,13 +31,15 @@ class TestEmail extends Mailable
     {
         return new Content(
             view: 'emails.test-email',
+            with: [
+                'user' => $this->user,
+                'invoice' => $this->invoice,
+            ],
         );
     }
 
     /**
      * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {

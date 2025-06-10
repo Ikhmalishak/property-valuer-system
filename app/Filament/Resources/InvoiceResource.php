@@ -18,6 +18,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
 
 class InvoiceResource extends Resource
 {
@@ -98,9 +100,7 @@ class InvoiceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('invoice_id')
-                    ->label('ID')
-                    ->sortable(),
+
 
                 TextColumn::make('user.name')
                     ->label('User')
@@ -163,21 +163,30 @@ class InvoiceResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
 
-                Action::make('sendReminder')
-                    ->label('Send Reminder')
-                    ->icon('heroicon-o-bell')
-                    ->color('warning')
-                    ->action(function (Invoice $record) {
-                        // TODO: Put your reminder sending logic here,
-                        // e.g., dispatch a notification, send email, etc.
-                        // For demo, just update last_reminder_sent:
-                        $record->update(['last_reminder_sent' => now()]);
+               Action::make('sendReminder')
+    ->label('Send Reminder')
+    ->icon('heroicon-o-bell')
+    ->color('warning')
+->action(function (Invoice $record) {
+    $user = $record->user;
 
-                        // Optionally notify user:
-                        // Notification::send($record->user, new ReminderNotification($record));
-                    })
-                    ->requiresConfirmation()
-                    ->visible(fn (Invoice $record) => $record->status !== 'paid'),
+    if ($user && $user->email) {
+        Mail::to($user->email)->send(new TestEmail($user, $record));
+        $record->update(['last_reminder_sent' => now()]);
+        Notification::make()
+            ->title('Reminder sent')
+            ->success()
+            ->send();
+    } else {
+        Notification::make()
+            ->title('User has no email')
+            ->danger()
+            ->send();
+    }
+})
+
+    ->requiresConfirmation()
+    ->visible(fn (Invoice $record) => $record->status !== 'paid'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
