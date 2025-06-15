@@ -21,6 +21,18 @@ class Document extends Model
         'download_count' => 'integer',
     ];
 
+     public function applicationStatus()
+    {
+        return $this->belongsTo(\App\Models\ApplicationStatus::class, 'application_status_id');
+    }
+
+    // app/Models/Application.php
+
+public function service()
+{
+    return $this->belongsTo(\App\Models\Service::class, 'service_id');
+}
+
     // Scope for active documents
     public function scopeActive($query)
     {
