@@ -20,10 +20,15 @@ Route::get('/', function () {
 
 // Authenticated user routes
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+   Route::get('/dashboard', function () {
+    $user = Auth::user();
 
+    if ($user->role == 0) {
+        return redirect()->route('admin');
+    } else {
+        return redirect()->route('services');
+    }
+})->middleware(['auth'])->name('dashboard');
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

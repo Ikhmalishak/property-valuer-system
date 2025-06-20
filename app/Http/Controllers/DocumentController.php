@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class DocumentController extends Controller
 {
@@ -62,62 +63,91 @@ class DocumentController extends Controller
     }
 
     //function to download a document
-public function download($path)
-{
-    $disk = Storage::disk('public');
+    // public function download($path)
+    // {
+    //     $disk = Storage::disk('public');
 
-    if (!$disk->exists($path)) {
-        return response()->json(['error' => 'File not found'], 404);
-    }
+    //     if (!$disk->exists($path)) {
+    //         return response()->json(['error' => 'File not found'], 404);
+    //     }
 
-    return $disk->download($path);
-}
+    //     return $disk->download($path);
+    // }
 
     /**
-     * Show the form for creating a new resource.
+     * Handle document search (AJAX or redirect).
+     */
+    public function search(Request $request)
+    {
+        $query = Document::query();
+
+        if ($request->filled('q')) {
+            $query->search($request->q);
+        }
+
+        if ($request->filled('category')) {
+            $query->byCategory($request->category);
+        }
+
+        if ($request->filled('year')) {
+            $query->byYear($request->year);
+        }
+
+        $documents = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        if ($request->ajax()) {
+            return view('document-list', compact('documents'))->render();
+        }
+
+        return redirect()->route('documents', $request->except(['page']));
+    }
+
+    /**
+     * Show form to create a new document.
      */
     public function create()
     {
-        //
+        return view('documents.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly uploaded document.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'file_name' => 'required|string|max:255',
+            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:10240', // 10MB max
+        ]);
+
+        $file = $request->file('file');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('documents', $fileName, 'public');
+
+        Document::create([
+            'file_name' => $request->file_name,
+            'category' => $request->category,
+            'file_path' => $filePath,
+            'file_size' => $file->getSize(),
+            'file_type' => strtoupper($file->getClientOriginalExtension()),
+            'year' => $request->year,
+        ]);
+
+        return redirect()->route('documents')->with('success', 'Dokumen berjaya ditambah!');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Document $document)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Document $document)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Document $document)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Remove the specified document from storage.
      */
     public function destroy(Document $document)
     {
-        //
+        // Delete file from storage
+        if (Storage::exists($document->file_path)) {
+            Storage::delete($document->file_path);
+        }
+
+        $document->delete();
+
+        return redirect()->route('documents')->with('success', 'Dokumen berjaya dipadamkan!');
     }
 }

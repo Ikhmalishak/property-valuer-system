@@ -17,19 +17,21 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Pages\Settings;
+use Filament\Navigation\MenuItem;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login()
-            ->colors([
-                'primary' => Color::Amber,
-            ])
+    return $panel
+        ->id('admin') // <-- REQUIRED
+        ->path('admin')
+        ->login()
+        ->pages([
+            \App\Filament\Pages\Settings::class,
+        ])
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -53,6 +55,15 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+          ->userMenuItems([
+            MenuItem::make()
+                ->label('Settings')
+                ->url(fn (): string => \App\Filament\Pages\Settings::getUrl())
+                ->icon('heroicon-o-cog-6-tooth'),
+        ])
+            ->pages([
+                Settings::class,
             ]);
     }
 }
