@@ -100,7 +100,6 @@ class PaymentController extends Controller
         $payment ->user->notify(new \App\Notifications\InvoiceNotification($payment));
         return view('payments.success', compact('payment'));
     }
-
     /**
      * Handle cancelled payment.
      */
