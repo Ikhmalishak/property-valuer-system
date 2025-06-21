@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\InvoiceReminder;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
@@ -26,5 +27,9 @@ class Invoice extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function sendReminder(){
+        $this->user->notify(new InvoiceReminder($this));
     }
 }

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('application_id')->constrained('applications', 'application_id')->onDelete('cascade');
             $table->string('file_name');
             $table->string('file_type'); // e.g., pdf, jpeg, png
             $table->string('file_path'); // stored path

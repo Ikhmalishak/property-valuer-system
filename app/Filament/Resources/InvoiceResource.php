@@ -154,41 +154,11 @@ class InvoiceResource extends Resource
                 Action::make('sendReminder')
                     ->label('Send Reminder')
                     ->icon('heroicon-o-bell')
-                    ->color('warning')
-                    ->form([
-                        Select::make('reminder_frequency')
-                            ->label('Reminder Frequency')
-                            ->options([
-                                'none' => 'None',
-                                'weekly' => 'Weekly',
-                                'monthly' => 'Monthly',
-                            ])
-                            ->required(),
-                    ])
-                    ->action(function (Invoice $record, array $data) {
-                        $user = $record->user;
-
-                        $record->update([
-                            'reminder_frequency' => $data['reminder_frequency'],
-                            'last_reminder_sent' => now(),
-                        ]);
-
-                        if ($user && $user->email) {
-                            Mail::to($user->email)->send(new TestEmail($user, $record));
-
-                            Notification::make()
-                                ->title('Reminder sent')
-                                ->success()
-                                ->send();
-                        } else {
-                            Notification::make()
-                                ->title('User has no email')
-                                ->danger()
-                                ->send();
-                        }
+                    ->action(function (Invoice $record) {
+                        $record->sendReminder();
                     })
                     ->requiresConfirmation()
-                    ->visible(fn (Invoice $record) => $record->status !== 'paid'),
+                    ->color('success'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
