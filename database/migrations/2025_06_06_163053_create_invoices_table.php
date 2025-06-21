@@ -10,24 +10,24 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-{
-    Schema::create('invoices', function (Blueprint $table) {
-        $table->id('invoice_id');
-        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-        $table->string('invoice_number');
-        $table->decimal('amount', 10, 2);
-        $table->dateTime('due_date');
-        $table->string('status'); // 'pending', 'paid', 'overdue'
-        $table->dateTime('issued_date');
-        $table->string('reminder_frequency'); // 'weekly', 'monthly', 'none'
-        $table->dateTime('last_reminder_sent')->nullable();
-        $table->boolean('amanah_raya_paid')->default(false);
-        $table->string('file_name')->nullable();
-        $table->string('file_type')->nullable();
-        $table->text('file_path')->nullable();
-        $table->timestamps(); // created_at and updated_at
-    });
-}
+    {
+        Schema::create('invoices', function (Blueprint $table) {
+            $table->id('invoice_id');
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->string('invoice_number');
+            $table->decimal('amount', 10, 2);
+            $table->dateTime('due_date');
+            $table->string('status'); // 'pending', 'paid', 'overdue'
+            $table->dateTime('issued_date');
+            $table->string('reminder_frequency'); // 'weekly', 'monthly', 'none'
+            $table->dateTime('last_reminder_sent')->nullable();
+            $table->boolean('amanah_raya_paid')->default(false);
+            $table->string('file_name')->nullable();
+            $table->string('file_type')->nullable();
+            $table->text('file_path')->nullable();
+            $table->timestamps(); // created_at and updated_at
+        });
+    }
 
 
     /**

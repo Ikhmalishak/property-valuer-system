@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use Filament\Notifications\Notification;
+use App\Filament\Resources\ClientResource\Pages\ViewProperties;
 
 class InvoiceResource extends Resource
 {
@@ -32,9 +33,9 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->label('User')
+                Select::make('client_id')
+                    ->relationship('client', 'name')
+                    ->label('Client')
                     ->required(),
 
                 TextInput::make('invoice_number')
@@ -91,8 +92,13 @@ class InvoiceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->label('User')
+                TextColumn::make('client.name')
+                    ->label('Client')
+                    ->url(fn($record) => ViewProperties::getUrl(['record' => $record->client_id]))
+                    ->openUrlInNewTab()
+                    ->color('primary')
+                    ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
+                    ->html()
                     ->sortable()
                     ->searchable(),
 

@@ -24,12 +24,12 @@ class Invoice extends Model
         'file_path',
     ];
 
-    public function user()
+    public function client()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Client::class);
     }
 
     public function sendReminder(){
-        $this->user->notify(new InvoiceReminder($this));
+        $this->client->notify(new InvoiceReminder($this));
     }
 }
