@@ -28,11 +28,12 @@ class PropertyResource extends Resource
             Select::make('client_id')
                 ->label('Client')
                 ->relationship('client', 'name')
-                ->searchable()
                 ->required(),
-            TextInput::make('type')->required()->maxLength(255),
-            TextInput::make('address')->maxLength(255),
-            TextInput::make('description')->maxLength(255),
+            TextInput::make('nombor_kait')->required(),
+            TextInput::make('nombor_lot')->required(),
+            TextInput::make('nombor_geran')->required(),
+            TextInput::make('daerah')->required(),
+            TextInput::make('mukim')->required(),
         ]);
     }
 
@@ -40,8 +41,11 @@ class PropertyResource extends Resource
     {
         return $table->columns([
             TextColumn::make('client.name')->label('Client')->searchable(),
-            TextColumn::make('type')->searchable(),
-            TextColumn::make('address')->limit(30),
+            TextColumn::make('nombor_kait'),
+            TextColumn::make('nombor_lot'),
+            TextColumn::make('nombor_geran'),
+            TextColumn::make('daerah'),
+            TextColumn::make('mukim'),
             TextColumn::make('created_at')->dateTime(),
         ])
             ->filters([])

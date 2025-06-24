@@ -18,12 +18,14 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Ikhmal',
                 'email' => 'Ikhmal1410@gmail.com',
-                'password' => '12345678'
+                'password' => '12345678',
+                'role' => 'admin'
             ],
             [
                 'name' => 'Jane Smith',
                 'email' => 'nim@gmail.com',
-                'password' => '12345678'
+                'password' => '12345678',
+                'role' => 'user'
             ]
         ];
 

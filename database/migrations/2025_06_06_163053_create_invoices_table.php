@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -23,12 +22,10 @@ return new class extends Migration
             $table->dateTime('last_reminder_sent')->nullable();
             $table->boolean('amanah_raya_paid')->default(false);
             $table->string('file_name')->nullable();
-            $table->string('file_type')->nullable();
             $table->text('file_path')->nullable();
-            $table->timestamps(); // created_at and updated_at
+            $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

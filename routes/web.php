@@ -21,15 +21,15 @@ Route::get('/', function () {
 
 // Authenticated user routes
 Route::middleware(['auth', 'verified'])->group(function () {
-   Route::get('/dashboard', function () {
-    $user = Auth::user();
+    Route::get('/dashboard', function () {
+        $user = Auth::user();
 
-    if ($user->role == 0) {
-        return redirect()->route('admin');
-    } else {
-        return redirect()->route('services');
-    }
-})->middleware(['auth'])->name('dashboard');
+        if ($user->role == 0) {
+            return redirect()->route('admin');
+        } else {
+            return redirect()->route('services');
+        }
+    })->middleware(['auth'])->name('dashboard');
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -46,10 +46,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/payment/{payment}/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
     // Document routes
-    Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
-    Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
-    Route::get('/documents/download/{path}', [DocumentController::class, 'download'])->where('path', '.*');
+    // Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
+    // Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
+    // Route::get('/documents/download/{path}', [DocumentController::class, 'download'])->where('path', '.*');
 });
+
+//Route that doesnt need to login
+//About Routes
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+//documents
+Route::get('/view/{path}', function ($path) {
+    $file = storage_path('app/public/' . $path);
+
+    if (!file_exists($file)) {
+        abort(404);
+    }
+
+    return response()->file($file); // will display in browser
+})->where('path', '.*')->name('documents.view');
 
 // Auth routes
 require __DIR__ . '/auth.php';

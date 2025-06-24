@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\DocumentsResource\RelationManagers\DocumentsRelationManager;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Models\Invoice;
 use Filament\Forms;
@@ -29,6 +30,7 @@ class InvoiceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -50,6 +52,15 @@ class InvoiceResource extends Resource
 
                 DateTimePicker::make('due_date')
                     ->label('Due Date')
+                    ->required(),
+
+                Select::make('reminder_frequency')
+                    ->label('Reminder Frequency')
+                    ->options([
+                        'pending' => 'Pending',
+                        'paid' => 'Paid',
+                        'overdue' => 'Overdue',
+                    ])
                     ->required(),
 
                 Select::make('status')
@@ -75,16 +86,18 @@ class InvoiceResource extends Resource
 
                 FileUpload::make('file_path')
                     ->label('Invoice Document')
-                    ->directory('invoices')
+                    ->directory('invoices') // stored in storage/app/public/invoices
                     ->disk('public')
-                    ->nullable(),
+                    ->preserveFilenames()
+                    ->nullable()
+                    ->storeFileNamesIn('file_name'), // This automatically stores the original filename
 
                 TextInput::make('file_name')
-                    ->label('File Name'),
+                    ->label('File Name')
+                    ->readonly() // Change from disabled() to readonly() so it can still be updated programmatically
+                    ->dehydrated(true) // Ensure it's included in form data
+                    ->hidden(), // Hide this field since it's automatically populated
 
-                TextInput::make('file_type')
-                    ->label('File Type')
-                    ->disabled(),
             ]);
     }
 
@@ -132,11 +145,13 @@ class InvoiceResource extends Resource
                     ->dateTime(),
 
                 TextColumn::make('file_name')
-                    ->label('File Name')
-                    ->limit(30),
-
-                TextColumn::make('file_type')
-                    ->label('File Type'),
+                    ->label('File')
+                    ->url(fn($record) => $record->file_path
+                        ? asset('storage/' . $record->file_path)
+                        : null)
+                    ->openUrlInNewTab()
+                    ->limit(30)
+                    ->tooltip(fn($record) => $record->file_name),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('reminder_frequency')
@@ -186,4 +201,23 @@ class InvoiceResource extends Resource
             'edit' => Pages\EditInvoice::route('/{record}/edit'),
         ];
     }
+
+    public static function mutateFormDataBeforeCreate(array $data): array
+    {
+        if (!empty($data['file_path'])) {
+            $data['file_name'] = basename($data['file_path']);
+        }
+
+        return $data;
+    }
+
+    public static function mutateFormDataBeforeUpdate(array $data): array
+    {
+        if (!empty($data['file_path'])) {
+            $data['file_name'] = basename($data['file_path']);
+        }
+
+        return $data;
+    }
+
 }

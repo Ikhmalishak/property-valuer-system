@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
         ->path('admin')
         ->login()
         ->pages([
-            \App\Filament\Pages\Settings::class,
+            Settings::class,
         ])
 
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -59,7 +59,7 @@ class AdminPanelProvider extends PanelProvider
           ->userMenuItems([
             MenuItem::make()
                 ->label('Settings')
-                ->url(fn (): string => \App\Filament\Pages\Settings::getUrl())
+                ->url(fn (): string => Settings::getUrl())
                 ->icon('heroicon-o-cog-6-tooth'),
         ])
             ->pages([

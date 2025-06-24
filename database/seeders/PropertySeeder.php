@@ -12,21 +12,28 @@ class PropertySeeder extends Seeder
     {
         $clients = Client::all();
 
-        foreach ($clients as $client) {
+        foreach ($clients as $index => $client) {
             Property::create([
                 'client_id' => $client->id,
-                'type' => 'House',
-                'address' => '123 Jalan Example, ' . $client->branch,
-                'description' => 'Main property for ' . $client->name,
+                'nombor_kait' => 'KAIT' . str_pad($index * 2 + 1, 3, '0', STR_PAD_LEFT),
+                'nombor_lot' => 'LOT' . str_pad($index * 2 + 1, 3, '0', STR_PAD_LEFT),
+                'nombor_geran' => 'GERAN' . str_pad($index * 2 + 1, 3, '0', STR_PAD_LEFT),
+                'daerah' => 'Pontian',
+                'mukim' => 'Mukim A',
+                'file_name' => 'INV001.pdf',
+                'file_path' => 'invoices/INV001.pdf',
             ]);
 
             Property::create([
                 'client_id' => $client->id,
-                'type' => 'Land',
-                'address' => 'Lot 456 Kampung Example, ' . $client->branch,
-                'description' => 'Additional land asset for ' . $client->name,
+                'nombor_kait' => 'KAIT' . str_pad($index * 2 + 2, 3, '0', STR_PAD_LEFT),
+                'nombor_lot' => 'LOT' . str_pad($index * 2 + 2, 3, '0', STR_PAD_LEFT),
+                'nombor_geran' => 'GERAN' . str_pad($index * 2 + 2, 3, '0', STR_PAD_LEFT),
+                'daerah' => 'Pontian',
+                'mukim' => 'Mukim B',
+                'file_name' => 'INV001.pdf',
+                'file_path' => 'invoices/INV001.pdf',
             ]);
         }
     }
 }
-

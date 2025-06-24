@@ -29,7 +29,8 @@ class Invoice extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function sendReminder(){
+    public function sendReminder()
+    {
         $this->client->notify(new InvoiceReminder($this));
     }
 }
