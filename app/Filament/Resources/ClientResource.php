@@ -65,7 +65,6 @@ class ClientResource extends Resource
             'create' => Pages\CreateClient::route('/create'),
             'edit' => Pages\EditClient::route('/{record}/edit'),
             'view-properties' => ViewProperties::route('/view-properties/{record}'),
-
         ];
     }
 }

@@ -5,24 +5,45 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class InvoiceSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create 2 clients manually
-        $client1 = Client::create([
-            'name' => 'Ali Bin Ahmad',
+        // Create user and client 1
+        $user1 = User::create([
+            'name' => 'Amanah Raya Berhad Gerik',
             'email' => 'ali@example.com',
+            'password' => Hash::make('password123'),
+            'role' => 'client',
+        ]);
+
+        $client1 = Client::create([
+            'user_id' => $user1->id,
+            'name' => 'Amanah Raya Berhad Gerik',
+            'email' => 'ali@example.com',
+            'branch' => 'Gerik',
+        ]);
+
+        // Create user and client 2
+        $user2 = User::create([
+            'name' => 'Amanah Raya Berhad Ampang',
+            'email' => 'siti@example.com',
+            'password' => Hash::make('password123'),
+            'role' => 'client',
         ]);
 
         $client2 = Client::create([
-            'name' => 'Siti Binti Amin',
+            'user_id' => $user2->id,
+            'name' => 'Amanah Raya Berhad Ampang',
             'email' => 'siti@example.com',
+            'branch' => 'Ampang',
         ]);
 
         // Create invoices for client 1
-        $invoice1 = Invoice::create([
+        Invoice::create([
             'client_id' => $client1->id,
             'invoice_number' => 'INV001',
             'amount' => 500.00,
@@ -36,7 +57,7 @@ class InvoiceSeeder extends Seeder
             'file_path' => 'invoices/INV001.pdf',
         ]);
 
-        $invoice2 = Invoice::create([
+        Invoice::create([
             'client_id' => $client1->id,
             'invoice_number' => 'INV002',
             'amount' => 750.00,
@@ -51,7 +72,7 @@ class InvoiceSeeder extends Seeder
         ]);
 
         // Create invoice for client 2
-        $invoice3 = Invoice::create([
+        Invoice::create([
             'client_id' => $client2->id,
             'invoice_number' => 'INV003',
             'amount' => 1200.00,

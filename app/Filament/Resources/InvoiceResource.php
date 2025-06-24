@@ -80,10 +80,6 @@ class InvoiceResource extends Resource
                     ->label('Last Reminder Sent')
                     ->nullable(),
 
-                Toggle::make('amanah_raya_paid')
-                    ->label('Amanah Raya Paid')
-                    ->default(false),
-
                 FileUpload::make('file_path')
                     ->label('Invoice Document')
                     ->directory('invoices') // stored in storage/app/public/invoices
@@ -137,9 +133,6 @@ class InvoiceResource extends Resource
                         return $record->status === 'paid' ? 'success' : 'danger';
                     }),
 
-                ToggleColumn::make('amanah_raya_paid')
-                    ->label('Amanah Raya Paid'),
-
                 TextColumn::make('issued_date')
                     ->label('Issued Date')
                     ->dateTime(),
@@ -149,7 +142,6 @@ class InvoiceResource extends Resource
                     ->url(fn($record) => $record->file_path
                         ? asset('storage/' . $record->file_path)
                         : null)
-                    ->openUrlInNewTab()
                     ->limit(30)
                     ->tooltip(fn($record) => $record->file_name),
             ])

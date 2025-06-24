@@ -5,8 +5,10 @@ namespace App\Filament\Resources\ClientResource\Pages;
 use App\Filament\Resources\ClientResource;
 use App\Models\Client;
 use App\Models\Property;
+use Dom\Text;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 
@@ -36,10 +38,20 @@ class ViewProperties extends Page implements HasTable
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('type'),
-            Tables\Columns\TextColumn::make('address'),
-            Tables\Columns\TextColumn::make('description'),
-            Tables\Columns\TextColumn::make('created_at')->dateTime(),
+            TextColumn::make('client.name')->label('Client')->searchable(),
+            TextColumn::make('nombor_kait')->label('Nombor Kait'),
+            TextColumn::make('nombor_lot')->label('Nombor Lot'),
+            TextColumn::make('nombor_geran')->label('Nombor Geran'),
+            TextColumn::make('daerah')->label('Daerah'),
+            TextColumn::make('mukim')->label('Mukim'),
+            TextColumn::make('file_name')
+                ->label('File')
+                ->url(fn($record) => $record->file_path
+                    ? asset('storage/' . $record->file_path)
+                    : null)
+                ->limit(30)
+                ->tooltip(fn($record) => $record->file_name),
+            TextColumn::make('created_at')->dateTime(),
         ];
     }
 

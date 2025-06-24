@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ClientSeeder::class,
             PropertySeeder::class,
-            InvoiceSeeder::class
+            InvoiceSeeder::class,
+            ServiceSeeder::class,
         ]);
     }
 }

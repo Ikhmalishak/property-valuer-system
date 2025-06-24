@@ -60,7 +60,6 @@ class PaymentController extends Controller
     protected function handleStripePayment(Payment $payment)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
-
         try {
             $session = Session::create([
                 'payment_method_types' => ['card'],
@@ -80,7 +79,6 @@ class PaymentController extends Controller
                 'cancel_url' => route('payment.cancel', $payment),
                 'client_reference_id' => $payment->id,
             ]);
-
             $payment->update(['gateway_reference' => $session->id, 'paid_at' => now()]);
 
             return redirect($session->url);

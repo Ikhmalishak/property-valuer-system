@@ -6,6 +6,7 @@ use App\Filament\Resources\PropertyResource\Pages;
 use App\Filament\Resources\PropertyResource\RelationManagers;
 use App\Models\Property;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -34,6 +35,19 @@ class PropertyResource extends Resource
             TextInput::make('nombor_geran')->required(),
             TextInput::make('daerah')->required(),
             TextInput::make('mukim')->required(),
+            FileUpload::make('file_path')
+                ->label('Property Document')
+                ->directory('properties') // stored in storage/app/public/invoices
+                ->disk('public')
+                ->preserveFilenames()
+                ->nullable()
+                ->storeFileNamesIn('file_name'), // This automatically stores the original filename
+
+            TextInput::make('file_name')
+                ->label('File Name')
+                ->readonly() // Change from disabled() to readonly() so it can still be updated programmatically
+                ->dehydrated(true) // Ensure it's included in form data
+                ->hidden(), // Hide this field since it's automatically populated
         ]);
     }
 
@@ -46,6 +60,14 @@ class PropertyResource extends Resource
             TextColumn::make('nombor_geran'),
             TextColumn::make('daerah'),
             TextColumn::make('mukim'),
+            TextColumn::make('file_name')
+                ->label('File')
+                ->url(fn($record) => $record->file_path
+                    ? asset('storage/' . $record->file_path)
+                    : null)
+                ->openUrlInNewTab()
+                ->limit(30)
+                ->tooltip(fn($record) => $record->file_name),
             TextColumn::make('created_at')->dateTime(),
         ])
             ->filters([])
