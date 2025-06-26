@@ -57,9 +57,10 @@ class InvoiceResource extends Resource
                 Select::make('reminder_frequency')
                     ->label('Reminder Frequency')
                     ->options([
-                        'pending' => 'Pending',
-                        'paid' => 'Paid',
-                        'overdue' => 'Overdue',
+                       'daily' => 'Daily',
+                       'weekly' => 'Weekly',
+                       'monthly' => 'Monthly',
+                       'none' => 'None',
                     ])
                     ->required(),
 

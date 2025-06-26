@@ -46,9 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/payment/{payment}/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
     // Document routes
-    // Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
-    // Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
-    // Route::get('/documents/download/{path}', [DocumentController::class, 'download'])->where('path', '.*');
+    Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
+     Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
+     Route::get('/documents/download/{path}', [DocumentController::class, 'download'])->where('path', '.*');
 });
 
 //Route that doesnt need to login
