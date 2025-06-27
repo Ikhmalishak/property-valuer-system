@@ -57,10 +57,10 @@ class InvoiceResource extends Resource
                 Select::make('reminder_frequency')
                     ->label('Reminder Frequency')
                     ->options([
-                       'daily' => 'Daily',
-                       'weekly' => 'Weekly',
-                       'monthly' => 'Monthly',
-                       'none' => 'None',
+                        'daily' => 'Daily',
+                        'weekly' => 'Weekly',
+                        'monthly' => 'Monthly',
+                        'none' => 'None',
                     ])
                     ->required(),
 
@@ -112,6 +112,10 @@ class InvoiceResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                TextColumn::make('property.nombor_kait')
+                    ->label('Property')
+                    ->searchable(),
+
                 TextColumn::make('invoice_number')
                     ->label('Invoice Number')
                     ->sortable()
@@ -139,10 +143,19 @@ class InvoiceResource extends Resource
                     ->dateTime(),
 
                 TextColumn::make('file_name')
-                    ->label('File')
+                    ->label('Invoice Documents')
                     ->url(fn($record) => $record->file_path
                         ? asset('storage/' . $record->file_path)
                         : null)
+                    ->limit(30)
+                    ->tooltip(fn($record) => $record->file_name),
+
+                TextColumn::make('property.file_name')
+                    ->label('Property Document')
+                    ->url(fn($record) => $record->property->file_path
+                        ? asset('storage/' . $record->property->file_path)
+                        : null)
+                    ->openUrlInNewTab()
                     ->limit(30)
                     ->tooltip(fn($record) => $record->file_name),
             ])
@@ -171,6 +184,7 @@ class InvoiceResource extends Resource
                     ->action(function (Invoice $record) {
                         $record->sendReminder();
                     })
+                    ->visible(fn(Invoice $record) => !$record->is_reminder_sent)
                     ->requiresConfirmation()
                     ->color('success'),
             ])

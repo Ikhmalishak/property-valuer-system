@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -67,6 +68,10 @@ Route::get('/view/{path}', function ($path) {
 
     return response()->file($file); // will display in browser
 })->where('path', '.*')->name('documents.view');
+
+
+//Invoices
+Route::get('/invoices/{id}', [InvoiceController::class, 'show']);
 
 // Auth routes
 require __DIR__ . '/auth.php';

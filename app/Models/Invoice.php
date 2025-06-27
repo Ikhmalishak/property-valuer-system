@@ -11,6 +11,7 @@ class Invoice extends Model
 
     protected $fillable = [
         'user_id',
+        'property_id',
         'invoice_number',
         'amount',
         'due_date',
@@ -29,8 +30,16 @@ class Invoice extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function property()
+    {
+        return $this->belongsTo(Property::class);
+    }
+
     public function sendReminder()
     {
         $this->client->notify(new InvoiceReminder($this));
+        $this->last_reminder_sent = now();
+        $this->is_reminder_sent = true;
+        $this->save();
     }
 }

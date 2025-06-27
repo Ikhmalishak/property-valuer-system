@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="stripe-key" content="{{ env('STRIPE_aKEY') }}">
+        <meta name="stripe-key" content="{{ env('STRIPE_KEY') }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 

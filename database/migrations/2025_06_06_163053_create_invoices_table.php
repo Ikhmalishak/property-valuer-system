@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id('invoice_id');
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('property_id')->constrained()->onDelete('cascade');
             $table->string('invoice_number');
             $table->decimal('amount', 10, 2);
             $table->dateTime('due_date');
@@ -21,6 +22,7 @@ return new class extends Migration {
             $table->string('reminder_frequency'); // 'weekly', 'monthly', 'none'
             $table->dateTime('last_reminder_sent')->nullable();
             $table->boolean('amanah_raya_paid')->default(false);
+            $table->boolean('is_reminder_sent')->default(false);
             $table->string('file_name')->nullable();
             $table->text('file_path')->nullable();
             $table->timestamps();
