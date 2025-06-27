@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Property;
 use Illuminate\Database\Seeder;
 use App\Models\Client;
 use App\Models\Invoice;
@@ -27,6 +28,17 @@ class InvoiceSeeder extends Seeder
             'branch' => 'Gerik',
         ]);
 
+        $property1 = Property::create([
+            'client_id' => $client1->id,
+            'nombor_kait' => 'KAIT' . str_pad(2 + 1, 3, '0', STR_PAD_LEFT),
+            'nombor_lot' => 'LOT' . str_pad(2 + 1, 3, '0', STR_PAD_LEFT),
+            'nombor_geran' => 'GERAN' . str_pad(2 + 1, 3, '0', STR_PAD_LEFT),
+            'daerah' => 'Pontian',
+            'mukim' => 'Mukim A',
+            'file_name' => 'INV001.pdf',
+            'file_path' => 'invoices/INV001.pdf',
+        ]);
+
         // Create user and client 2
         $user2 = User::create([
             'name' => 'Amanah Raya Berhad Ampang',
@@ -42,10 +54,22 @@ class InvoiceSeeder extends Seeder
             'branch' => 'Ampang',
         ]);
 
+        $property2 = Property::create([
+            'client_id' => $client2->id,
+            'nombor_kait' => 'KAIT' . str_pad(2 + 1, 3, '0', STR_PAD_LEFT),
+            'nombor_lot' => 'LOT' . str_pad(2 + 1, 3, '0', STR_PAD_LEFT),
+            'nombor_geran' => 'GERAN' . str_pad(2 + 1, 3, '0', STR_PAD_LEFT),
+            'daerah' => 'Pontian',
+            'mukim' => 'Mukim A',
+            'file_name' => 'INV001.pdf',
+            'file_path' => 'invoices/INV001.pdf',
+        ]);
+
         // Create invoices for client 1
         Invoice::create([
             'client_id' => $client1->id,
             'invoice_number' => 'INV001',
+            'property_id' => $property1->id,
             'amount' => 500.00,
             'due_date' => now()->addDays(30),
             'status' => 'pending',
@@ -60,6 +84,7 @@ class InvoiceSeeder extends Seeder
         Invoice::create([
             'client_id' => $client1->id,
             'invoice_number' => 'INV002',
+            'property_id' => $property1->id,
             'amount' => 750.00,
             'due_date' => now()->addDays(15),
             'status' => 'paid',
@@ -74,6 +99,7 @@ class InvoiceSeeder extends Seeder
         // Create invoice for client 2
         Invoice::create([
             'client_id' => $client2->id,
+            'property_id' => $property1->id,
             'invoice_number' => 'INV003',
             'amount' => 1200.00,
             'due_date' => now()->addDays(10),

@@ -22,7 +22,7 @@ class DocumentSeeder extends Seeder
                 'file_type' => $type,
                 'category' => $category,
                 'size' => rand(100_000, 5_000_000), // ~100KB to 5MB
-            ]);
+            ])";
         }
     }
 }
