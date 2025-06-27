@@ -85,10 +85,16 @@ return [
     */
 
     'livewire_loading_delay' => 'default',
-    
-'auth' => [
-    'guard' => 'admin', // 👈 your custom guard
-],
 
+    'auth' => [
+        'guard' => null, // use default web guard (Breeze)
+        'pages' => [
+            'login' => false, // disable Filament login page
+        ],
+        'authorization' => [
+            'enabled' => true,
+            'permission' => 'viewFilament', // this matches the Gate you defined
+        ],
+    ],
 
 ];

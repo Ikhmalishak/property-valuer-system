@@ -31,12 +31,12 @@ public function store(LoginRequest $request): RedirectResponse
     $user = Auth::user();
 
     // If user is an admin (role == 0), redirect to /admin
-    if ($user->role == 0) {
-        return redirect()->to('admin');
+    if ($user->role === "admin") {
+        return redirect()->intended('/admin');
     }
 
     // If user is not admin, redirect to the services page
-    return redirect()->route('services');
+    return redirect()->intended('/services');
 }
 
 
