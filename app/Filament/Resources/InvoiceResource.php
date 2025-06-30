@@ -190,7 +190,7 @@ public static function form(Form $form): Form
                     ->label('Send Reminder')
                     ->icon('heroicon-o-bell')
                     ->action(function (Invoice $record) {
-                        $record->sendReminder();
+                        $record->sendFirstReminder();
                     })
                     ->visible(fn(Invoice $record) => !$record->is_reminder_sent)
                     ->requiresConfirmation()

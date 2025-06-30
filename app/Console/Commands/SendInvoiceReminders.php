@@ -13,8 +13,10 @@ class SendInvoiceReminders extends Command
 
     public function handle()
     {
+        //set current date and time
         $now = Carbon::now();
 
+        // Fetch all unpaid invoices
         $invoices = Invoice::where('status', '!=', 'paid')->get();
 
         foreach ($invoices as $invoice) {
@@ -24,17 +26,15 @@ class SendInvoiceReminders extends Command
             switch ($invoice->reminder_frequency) {
                 case 'weekly':
                     // Send on Fridays, at least 7 days since last reminder
-                    if ($now->isFriday() && $now->diffInDays($lastSent) >= 7) {
+                    if ($now->diffInDays($lastSent,true) >= 7) {
                         $shouldSend = true;
                     }
                     break;
 
                 case 'monthly':
-                    // Send on 1st or last day of month, and at least 28 days since last reminder
-                    if (
-                        ($now->isSameDay($now->copy()->startOfMonth()) || $now->isSameDay($now->copy()->endOfMonth()))
-                        && $now->diffInDays($lastSent) >= 28
-                    ) {
+                    // Send on 30 days after last reminder
+                    if ($now->diffInDays($lastSent) >= 30)
+                    {
                         $shouldSend = true;
                     }
                     break;
@@ -45,7 +45,7 @@ class SendInvoiceReminders extends Command
             }
 
             if ($shouldSend) {
-                $invoice->sendReminder(); // calls method in your model
+                $invoice->sendRecurringReminder(); // calls method in your model
                 $this->info("Reminder sent to Invoice ID {$invoice->id}");
             }
         }

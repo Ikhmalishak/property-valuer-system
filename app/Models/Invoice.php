@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\InvoiceReminder;
+use App\Notifications\PropertyReminder;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
@@ -35,11 +36,17 @@ class Invoice extends Model
         return $this->belongsTo(Property::class);
     }
 
-    public function sendReminder()
+    public function sendFirstReminder()
     {
         $this->client->notify(new InvoiceReminder($this));
         $this->last_reminder_sent = now();
         $this->is_reminder_sent = true;
+        $this->save();
+    }
+    public function sendRecurringReminder()
+    {
+        $this->client->notify(new PropertyReminder($this));
+        $this->last_reminder_sent = now();
         $this->save();
     }
 }
