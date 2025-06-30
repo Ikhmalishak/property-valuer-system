@@ -23,6 +23,8 @@ use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use Filament\Notifications\Notification;
 use App\Filament\Resources\ClientResource\Pages\ViewProperties;
+ 
+use Filament\Tables\Filters\SelectFilter;
 
 class InvoiceResource extends Resource
 {
@@ -30,8 +32,7 @@ class InvoiceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-
-    public static function form(Form $form): Form
+public static function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -39,6 +40,13 @@ class InvoiceResource extends Resource
                     ->relationship('client', 'name')
                     ->label('Client')
                     ->required(),
+
+                Select::make('property_id')
+                    ->label('Property')
+                    ->options(Property::all()->pluck('nombor_kait', 'id')) // assuming nombor_kait is property identifier
+                    ->required()
+                    ->searchable()
+                    ->preload(),
 
                 TextInput::make('invoice_number')
                     ->label('Invoice Number')
@@ -151,7 +159,7 @@ class InvoiceResource extends Resource
                     ->tooltip(fn($record) => $record->file_name),
 
                 TextColumn::make('property.file_name')
-                    ->label('Property Document')
+                    ->label('Surat Iringan')
                     ->url(fn($record) => $record->property->file_path
                         ? asset('storage/' . $record->property->file_path)
                         : null)
@@ -217,7 +225,7 @@ class InvoiceResource extends Resource
 
         return $data;
     }
-
+  
     public static function mutateFormDataBeforeUpdate(array $data): array
     {
         if (!empty($data['file_path'])) {

@@ -15,13 +15,21 @@ class ArchiveResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?string $recordTitleAttribute = 'invoice_number';
-
+protected static ?string $recordKey = 'invoice_id';
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_number')->searchable(),
-                Tables\Columns\TextColumn::make('client_id'),
+                Tables\Columns\TextColumn::make('client.name')
+                ->label('Client')
+                ->url(fn($record) => \App\Filament\Resources\ClientResource\Pages\ViewProperties::getUrl(['record' => $record->client_id]))
+                ->openUrlInNewTab()
+                ->color('primary')
+                ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
+                ->html()
+                ->sortable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('amount')->money('MYR'),
                 Tables\Columns\TextColumn::make('issued_date')->dateTime(),
                 Tables\Columns\TextColumn::make('due_date')->dateTime(),

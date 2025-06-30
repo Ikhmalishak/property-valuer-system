@@ -6,9 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Archive extends Model
 {
-    protected $table = 'archives'; // points to the view
-    public $incrementing = false;
-    protected $primaryKey = 'id';
-    protected $keyType = 'int';
-    public $timestamps = false;
+   protected $table = 'archives';
+    protected $primaryKey = 'invoice_id'; // Use invoice_id as the primary key
+    public $incrementing = false; // Since it's not auto-incrementing
+    public $exists = true; // If archives is a read-only view
+
+     // Define client relationship
+    public function client()
+    {
+        return $this->belongsTo(\App\Models\Client::class, 'client_id');
+    }
 }

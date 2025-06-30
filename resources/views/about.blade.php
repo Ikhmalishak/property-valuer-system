@@ -13,11 +13,13 @@
                         <div>
                             <h2 class="text-3xl font-bold text-gray-800 mb-6">Who We Are</h2>
                             <p class="text-gray-600 leading-relaxed mb-4">
-                                We are a dynamic organization dedicated to fostering professional growth and development among graduates in Perak. Our mission is to create meaningful connections and opportunities for career advancement.
-                            </p>
+                               We are JPPH Teluk Intan, a dedicated branch under the Department of Valuation and Property Services (Jabatan Penilaian dan Perkhidmatan Harta), committed to delivering accurate property valuation and real estate advisory services within the Hilir Perak district.
+
+</p>
                             <p class="text-gray-600 leading-relaxed">
-                                Through our comprehensive programs and initiatives, we bridge the gap between academic achievement and professional success, empowering our members to excel in their chosen fields.
-                            </p>
+                               Our role is vital in supporting government decisions through professional valuation work that promotes fair compensation, transparent taxation, and responsible development.
+
+   </p>
                         </div>
                         <div class="bg-gray-200 rounded-lg h-64 flex items-center justify-center">
                             <img src="{{ asset('images/images12.jpeg') }}" alt="Office" class="max-w-full h-auto">
@@ -51,26 +53,26 @@
                         <div>
                             <h2 class="text-3xl font-bold text-gray-800 mb-6">About Us</h2>
                             <p class="text-gray-600 leading-relaxed mb-4">
-                                Established as a premier professional association, we serve as a catalyst for graduate development in Perak. Our organization brings together talented individuals from diverse backgrounds and industries.
-                            </p>
-                            <p class="text-gray-600 leading-relaxed">
-                                We provide platforms for networking, skill development, and career advancement through various programs, workshops, and community initiatives.
-                            </p>
+                           JPPH Teluk Intan operates as the trusted valuation arm for government and public sector needs in the region. We handle land and property valuations for acquisition, taxation, sale, rental, and financial reporting purposes.
+
+Our branch also provides property data analysis and market insights to support policymaking and development planning at the local level.
+
+ </p>
                         </div>
                         <div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-4">Our Impact</h3>
                             <div class="space-y-3">
                                 <div class="flex items-center">
                                     <div class="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                                    <span class="text-gray-600">500+ Active Members</span>
+                                    <span class="text-gray-600">500+ Government Valuation Reports Annually</span>
                                 </div>
                                 <div class="flex items-center">
                                     <div class="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                                    <span class="text-gray-600">50+ Programs Conducted</span>
+                                    <span class="text-gray-600">50+ Public Sector Agencies Served</span>
                                 </div>
                                 <div class="flex items-center">
                                     <div class="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                                    <span class="text-gray-600">Industry Partnerships</span>
+                                    <span class="text-gray-600">Trusted by State and Federal Departments</span>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +95,7 @@
                                 </svg>
                             </div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">Vision</h3>
-                            <p class="text-gray-600">To be the leading platform for graduate empowerment and professional excellence in Perak.</p>
+                            <p class="text-gray-600">To be the trusted leader in property valuation and asset services in Hilir Perak that support national and local development.</p>
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-sm">
                             <div class="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
@@ -102,7 +104,7 @@
                                 </svg>
                             </div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">Mission</h3>
-                            <p class="text-gray-600">To foster professional growth, create networking opportunities, and drive innovation among graduates.</p>
+                            <p class="text-gray-600">To provide accurate, independent, and professional valuation services that enhance government efficiency and public confidence.</p>
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-sm">
                             <div class="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
@@ -111,7 +113,7 @@
                                 </svg>
                             </div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">Objectives</h3>
-                            <p class="text-gray-600">To enhance skills, build networks, and create sustainable career pathways for all members.</p>
+                            <p class="text-gray-600">To ensure consistent, high-quality property valuation and advisory services while promoting transparency, legal compliance, and stakeholder trust.</p>
                         </div>
                     </div>
                 </div>
@@ -130,16 +132,14 @@
                             </div>
 
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">Valuation Assessment</h3>
-                            <p class="text-gray-600"> Determines the accurate market value of properties for various purposes such as sale, purchase, taxation, or compensation.</p>
+                            <p class="text-gray-600">We determine fair market values for land and property used in acquisition, disposal, compensation, rental, and government financing purposes.</p>
                         </div>
                         <div class="text-center">
                             <div class="bg-gray-200 w-24 h-24 rounded-lg mx-auto mb-4 overflow-hidden">
                                 <img src="{{ asset('images/career2.jpg') }}" class="w-full h-full object-cover" alt="Buletin Icon">
                             </div>
                             <h3 class="text-xl font-semibold text-gray-800 mb-3">Market Analysis</h3>
-                            <p class="text-gray-600">Studies property market trends and data to provide insights for policy-making, investment, and development planning.
-
-                            </p>
+                            <p class="text-gray-600">We study property market trends in the Teluk Intan area to provide data-driven insights for public infrastructure planning and investment.</p>
                         </div>
                     </div>
                 </div>
@@ -205,8 +205,7 @@
                         <div>
                             <h2 class="text-3xl font-bold text-gray-800 mb-6">Organizational Overview</h2>
                             <p class="text-gray-600 leading-relaxed mb-4">
-                                Our organization structure is designed to maximize efficiency and ensure effective governance. We operate with clear hierarchies and defined responsibilities to serve our members better.
-                            </p>
+                             JPPH Teluk Intan is led by a qualified District Valuer supported by technical and administrative staff who ensure accurate, timely, and transparent service delivery. Our structure enables efficient coordination with the State Valuation Director and other branches.</p>
                             <p class="text-gray-600 leading-relaxed">
                                 Leadership roles are filled by experienced professionals who bring diverse expertise and commitment to advancing our mission and objectives.
                             </p>
@@ -229,13 +228,14 @@
                         <img src="{{ asset('images/buletin2.png') }}" alt="Success Story" class="max-w-full h-auto rounded-lg shadow-md">
                         <img src="{{ asset('images/buletin3.png') }}" alt="Success Story" class="max-w-full h-auto rounded-lg shadow-md">
                         <img src="{{ asset('images/buletin4.png') }}" alt="Success Story" class="max-w-full h-auto rounded-lg shadow-md">
-                        <p class="mt-4 text-gray-700">"Thanks to this program, I landed my dream job!" - Aisha, Graduate 2024</p>
+                        <p class="mt-4 text-gray-700"> "Thanks to JPPH Teluk Intan’s timely valuations and professional guidance, I managed to settle my government housing loan application smoothly."
+– Hafiz, Government Servant (Teacher, Teluk Intan)</p>
                     </div>
 
                     <h2 class="text-3xl font-bold text-gray-800 mb-6">About the Government Housing Loan Scheme</h2>
                     <div class="bg-white rounded-lg p-6">
                         <img src="{{ asset('images/images5.png') }}" alt="Event Poster" class="max-w-full h-auto rounded-lg shadow-md">
-                        <p class="mt-4 text-gray-700">A Government Initiative that offers housing loans to public servants, supported by JPPH’s valuation services to ensure fair, transparent, and efficient home financing.</p>
+                        <p class="mt-4 text-gray-700">This federal initiative supports public servants in owning homes. JPPH Teluk Intan plays a key role by offering official property valuations that ensure fair pricing and loan approval efficiency.</p>
                     </div>
                 </div>
             </div>

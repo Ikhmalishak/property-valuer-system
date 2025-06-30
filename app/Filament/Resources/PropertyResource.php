@@ -16,7 +16,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Filament\Tables\Filters\SelectFilter;
+use App\Filament\Resources\InvoiceResource\Pages\ListInvoices;
+use Filament\Tables\Filters\Filter;
 class PropertyResource extends Resource
 {
     protected static ?string $model = Property::class;
@@ -54,10 +56,16 @@ class PropertyResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            TextColumn::make('client.name')->label('Client')->searchable(),
-            TextColumn::make('nombor_kait'),
-            TextColumn::make('nombor_lot'),
-            TextColumn::make('nombor_geran'),
+            TextColumn::make('client.name')->label('Client')->url(fn($record) => ListInvoices::getUrl(['filters' => ['client_id' => $record->client_id]]))
+    ->openUrlInNewTab()
+    ->color('primary')
+    ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
+    ->html()
+    ->sortable()
+    ->searchable(),
+            TextColumn::make('nombor_kait')->searchable(),
+            TextColumn::make('nombor_lot')->searchable(),
+            TextColumn::make('nombor_geran')->searchable(),
             TextColumn::make('daerah'),
             TextColumn::make('mukim'),
             TextColumn::make('file_name')
@@ -70,7 +78,46 @@ class PropertyResource extends Resource
                 ->tooltip(fn($record) => $record->file_name),
             TextColumn::make('created_at')->dateTime(),
         ])
-            ->filters([])
+            ->filters([
+  // Filter by Client
+            SelectFilter::make('client_id')
+                ->relationship('client', 'name')
+
+                ->label('Filter by Client')
+                ->searchable()
+                ->preload(),
+
+            // Filter by Daerah
+            SelectFilter::make('daerah')
+                ->options(function () {
+                    return Property::query()
+                        ->distinct()
+                        ->pluck('daerah', 'daerah');
+                })
+                ->label('Daerah'),
+
+            // Filter by Mukim
+            SelectFilter::make('mukim')
+                ->options(function () {
+                    return Property::query()
+                        ->distinct()
+                        ->pluck('mukim', 'mukim');
+                })
+                ->label('Mukim'),
+
+            // Filter by Created Date Range
+            Filter::make('created_at')
+                ->form([
+                    Forms\Components\DatePicker::make('created_from'),
+                    Forms\Components\DatePicker::make('created_until'),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when($data['created_from'], fn($q, $date) => $q->whereDate('created_at', '>=', $date))
+                        ->when($data['created_until'], fn($q, $date) => $q->whereDate('created_at', '<=', $date));
+                }),
+
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
