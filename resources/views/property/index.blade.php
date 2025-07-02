@@ -28,7 +28,7 @@
                                 </div>
                                 <span class="text-sm text-green-600 font-medium">+12.5%</span>
                             </div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Invoice Paid</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Total properties Paid</h3>
                             <p class="text-3xl font-bold text-gray-900">$45,231</p>
                         </div>
 
@@ -46,7 +46,7 @@
                                 </div>
                                 <span class="text-sm text-blue-600 font-medium">+8.2%</span>
                             </div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Invoice Pending</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Total properties Pending</h3>
                             <p class="text-3xl font-bold text-gray-900">2,543</p>
                         </div>
 
@@ -63,7 +63,7 @@
                                 </div>
                                 <span class="text-sm text-red-600 font-medium">-2.1%</span>
                             </div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Invoice</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Total properties</h3>
                             <p class="text-3xl font-bold text-gray-900">1,423</p>
                         </div>
 
@@ -89,11 +89,11 @@
                 <!-- Table Section Placeholder -->
                 <section class="bg-white rounded-xl shadow-sm border border-gray-100">
                     <div class="p-6 border-b border-gray-200">
-                        <h2 class="text-xl font-semibold text-gray-900">Invoice</h2>
+                        <h2 class="text-xl font-semibold text-gray-900">properties</h2>
                         <p class="text-gray-600 mt-1">Your latest transactions and updates</p>
                     </div>
 
-                    @if ($invoices->count())
+                    @if ($properties->count())
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -103,58 +103,55 @@
                                         #</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Client</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Nombor Kait</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Invoice Number</th>
+                                        Nombor Lot</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Amount</th>
+                                        Nombor Geran</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status</th>
+                                        Daerah</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Issued Date</th>
+                                        Mukim</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Invoice Documents</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Surat Iringan</th>
+                                        File</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach ($invoices as $invoice)
+                                @foreach ($properties as $property)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $loop->iteration }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ $invoice->property->nombor_kait ?? 'N/A' }}
+                                        {{ $property->client->name ?? 'N/A' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ $invoice->invoice_number }}
+                                        {{ $property->nombor_kait ?? 'N/A' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        ${{ number_format($invoice->amount, 2) }}</td>
+                                        {{ $property->nombor_lot }}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        @if($invoice->status === 'paid')
-                                        <span class="text-green-600 font-medium">Paid</span>
-                                        @else
-                                        <span class="text-red-600 font-medium">Unpaid</span>
-                                        @endif
+                                        {{ $property->nombor_geran ?? 'N/A' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ \Carbon\Carbon::parse($invoice->due_date)->format('M d, Y') }}
+                                        {{ $property->daerah ?? 'N/A' }}
                                     </td>
                                     <td class="px-4 py-2">
-                                        <a href="{{ asset('storage/' . $invoice->file_path) }}" target="_blank">
-                                            {{ $invoice->file_name }}
+                                        <a href="{{ asset('storage/' . $property->file_path) }}" target="_blank">
+                                            {{ $property->file_name }}
                                         </a>
                                     </td>
                                     <td class="px-4 py-2">
-                                        <a href="{{ asset('storage/' . $invoice->property->file_path) }}" target="_blank">
-                                            {{ $invoice->property->file_name }}
+                                        <a href="{{ asset('storage/' . $property->file_path) }}" target="_blank">
+                                            {{ $property->file_name }}
                                         </a>
                                     </td>
                                 </tr>
@@ -169,8 +166,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z" />
                         </svg>
-                        <h3 class="text-lg font-medium text-gray-900 mb-1">No Invoices Found</h3>
-                        <p class="text-gray-500">You don't have any invoices yet.</p>
+                        <h3 class="text-lg font-medium text-gray-900 mb-1">No properties Found</h3>
+                        <p class="text-gray-500">You don't have any properties yet.</p>
                     </div>
                     @endif
                 </section>

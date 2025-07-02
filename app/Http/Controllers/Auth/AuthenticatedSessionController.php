@@ -36,7 +36,7 @@ public function store(LoginRequest $request): RedirectResponse
     }
 
     // If user is not admin, redirect to the services page
-    return redirect()->intended('/services');
+    return redirect()->intended('/dashboard');
 }
 
 

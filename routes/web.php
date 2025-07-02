@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PropertyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
+    //Property 
+    Route::get('/property',[PropertyController::class, 'index'])->name('properties');
+
     //About Routes
     Route::get('/about', function () {
         return view('about');

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
@@ -12,7 +14,17 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+
+        // Get the client that belongs to the user
+        $client = Client::where('user_id', $user->id)->first();
+
+        // If client exists, fetch their invoices
+        $properties = Property::where('client_id', $client->id)
+        ->latest()->with(['client:id,name'])
+        ->get() ?? collect(); // return empty collection if no client
+
+        return view('property.index', compact('properties','user'));
     }
 
     /**

@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
         // If client exists, fetch their invoices
         $invoices = $client
-            ? Invoice::where('client_id', $client->id)->latest()->get()
+            ? Invoice::where('client_id', $client->id)->latest()->with(['property:id,nombor_kait,file_path,file_name'])->get()
             : collect(); // return empty collection if no client
 
             return view('dashboard.index', compact('invoices','user'));
