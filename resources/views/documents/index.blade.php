@@ -1,5 +1,6 @@
 <x-app-layout>
     <main class="container mx-auto px-4 py-8">
+
         <!-- Search Section (Unchanged) -->
         <section class="bg-white rounded-lg shadow-lg overflow-hidden mb-10">
             <div class="text-center rounded-lg p-6">
@@ -93,7 +94,7 @@
                 <div class="bg-white rounded-lg shadow-lg mb-6 p-4">
                     <div class="flex justify-between items-center">
                         <div>
-                            <input type="text" placeholder="Cari dokumen..." id="searchInput" class="border border-gray-300 rounded-md px-3 py-2 text-sm w-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                            <input type="text" placeholder="Cari dokumen..." id="searchInput" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm w-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex items-center gap-4">
                             <span class="text-gray-700 font-medium">Susun mengikut:</span>

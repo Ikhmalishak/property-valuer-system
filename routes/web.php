@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,15 +49,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Document routes
     Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
-     Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
-     Route::get('/documents/download/{path}', [DocumentController::class, 'download'])->where('path', '.*');
+    Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
+    Route::get('/documents/download/{path}', [DocumentController::class, 'download'])->where('path', '.*');
+
+    //Invoices
+    Route::get('/invoices/{id}', [InvoiceController::class, 'show']);
+
+    //Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    //About Routes
+    Route::get('/about', function () {
+        return view('about');
+    })->name('about');
+
 });
 
-//Route that doesnt need to login
-//About Routes
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
 
 //documents
 Route::get('/view/{path}', function ($path) {
@@ -68,10 +76,6 @@ Route::get('/view/{path}', function ($path) {
 
     return response()->file($file); // will display in browser
 })->where('path', '.*')->name('documents.view');
-
-
-//Invoices
-Route::get('/invoices/{id}', [InvoiceController::class, 'show']);
 
 // Auth routes
 require __DIR__ . '/auth.php';
