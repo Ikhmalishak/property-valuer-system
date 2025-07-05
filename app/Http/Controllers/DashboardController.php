@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Property;
 use App\Models\Client;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -13,18 +13,27 @@ class DashboardController extends Controller
     /**
      * Display the dashboard.
      */
-    public function index()
-    {
-        $user = Auth::user();
+public function index()
+{
+    $user = Auth::user();
 
-        // Get the client that belongs to the user
-        $client = Client::where('user_id', $user->id)->first();
+    $client = Client::where('user_id', $user->id)->first();
 
-        // If client exists, fetch their invoices
-        $invoices = $client
-            ? Invoice::where('client_id', $client->id)->latest()->with(['property:id,nombor_kait,file_path,file_name'])->get()
-            : collect(); // return empty collection if no client
-
-            return view('dashboard.index', compact('invoices','user'));
+    if (!$client) {
+        return view('dashboard.index', [
+            'invoices' => collect(),
+            'properties' => collect(),
+            'user' => $user,
+        ])->with('error', 'No client found.');
     }
+
+    $invoices = Invoice::where('client_id', $client->id)
+        ->with('property')
+        ->latest()
+        ->paginate(10);
+
+    $properties = Property::where('client_id', $client->id)->get();
+
+    return view('dashboard.index', compact('invoices', 'properties', 'user'));
+}
 }

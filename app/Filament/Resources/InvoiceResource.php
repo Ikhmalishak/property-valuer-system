@@ -23,7 +23,7 @@ use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use Filament\Notifications\Notification;
 use App\Filament\Resources\ClientResource\Pages\ViewProperties;
- 
+use App\Models\Property; 
 use Filament\Tables\Filters\SelectFilter;
 
 class InvoiceResource extends Resource

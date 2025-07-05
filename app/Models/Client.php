@@ -10,7 +10,7 @@ class Client extends Model
     //add notifable
     use Notifiable;
     
-    protected $fillable = ['name', 'email', 'branch'];
+    protected $fillable = ['name', 'email', 'branch','user_id',];
 
     public function properties()
     {

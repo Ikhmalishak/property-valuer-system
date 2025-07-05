@@ -12,5 +12,11 @@ class Property extends Model
     {
         return $this->belongsTo(Client::class);
     }
+    // app/Models/Property.php
+
+public function invoices()
+{
+    return $this->hasMany(Invoice::class, 'property_id');
+}
 
 }

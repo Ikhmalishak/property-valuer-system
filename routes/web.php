@@ -53,15 +53,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/documents/get', [DocumentController::class, 'getDocuments'])->name('documents.get');
     Route::get('/documents/download/{path}', [DocumentController::class, 'download'])->where('path', '.*');
 
-    //Invoices
-    Route::get('/invoices/{id}', [InvoiceController::class, 'show']);
+  // Invoices
+  Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
+    Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
 
     //Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+  
     //Property 
+
+    
     Route::get('/property',[PropertyController::class, 'index'])->name('properties');
 
+Route::post('/property', [PropertyController::class, 'store'])->name('property.store');
     //About Routes
     Route::get('/about', function () {
         return view('about');
