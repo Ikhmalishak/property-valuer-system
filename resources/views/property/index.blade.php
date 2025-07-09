@@ -85,7 +85,8 @@
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombor Geran</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Daerah</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mukim</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property File</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice File</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -101,6 +102,15 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                                 @if ($property->file_path)
                                                     <a href="{{ asset('storage/' . $property->file_path) }}" target="_blank" class="text-blue-600 underline">
+                                                        {{ $property->file_name }}
+                                                    </a>
+                                                @else
+                                                    No file uploaded
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                                @if ($property->file_path)
+                                                    <a href="{{ asset('storage/' . $property->invoice->file_path) }}" target="_blank" class="text-blue-600 underline">
                                                         {{ $property->file_name }}
                                                     </a>
                                                 @else

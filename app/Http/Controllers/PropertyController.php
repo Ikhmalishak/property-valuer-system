@@ -29,7 +29,7 @@ class PropertyController extends Controller
     // If client exists, fetch their properties
     $properties = Property::where('client_id', $client->id)
         ->latest()
-        ->with(['client:id,name', 'invoices'])
+        ->with(['client:id,name', 'invoice'])
         ->paginate(10); // Better for large datasets
 
     return view('property.index', compact('properties', 'user'));

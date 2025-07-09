@@ -86,6 +86,21 @@ class InvoiceController extends Controller
         return back()->with('success', 'Invoice added successfully!');
     }
 
+    //get all invoices with status archive
+    public function getPaidInvoices()
+    {
+
+        $user = auth()->user();
+
+        $client = Client::where('user_id', $user->id)->first();
+
+        $paid_invoices = Invoice::where('status', 'paid')
+            ->where('client_id', $client->id)
+            ->get();
+
+        return view('dashboard.archive', compact('paid_invoices'));
+    }
+
     /**
      * Display the specified resource.
      */

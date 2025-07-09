@@ -14,9 +14,10 @@ class Property extends Model
     }
     // app/Models/Property.php
 
-public function invoices()
-{
-    return $this->hasMany(Invoice::class, 'property_id');
-}
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class, 'property_id');
+    }
+
 
 }

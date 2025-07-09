@@ -32,9 +32,9 @@ class Invoice extends Model
     }
 
     public function property()
-{
-    return $this->belongsTo(\App\Models\Property::class, 'property_id');
-}
+    {
+        return $this->belongsTo(\App\Models\Property::class, 'property_id');
+    }
 
     public function sendFirstReminder()
     {
