@@ -53,6 +53,12 @@ class PropertyResource extends Resource
         ]);
     }
 
+    public static function getNavigationSort(): int
+    {
+        return 2;
+    }
+
+
     public static function table(Table $table): Table
     {
         return $table->columns([

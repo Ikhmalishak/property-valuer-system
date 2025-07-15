@@ -106,6 +106,11 @@ public static function form(Form $form): Form
             ]);
     }
 
+public static function getNavigationSort(): int
+    {
+        return 3;
+    }
+
     public static function table(Table $table): Table
     {
         return $table

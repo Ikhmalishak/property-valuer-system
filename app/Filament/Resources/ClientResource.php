@@ -31,6 +31,11 @@ class ClientResource extends Resource
         ]);
     }
 
+    public static function getNavigationSort(): int
+    {
+        return 1;
+    }
+
     public static function table(Table $table): Table
     {
         return $table->columns([

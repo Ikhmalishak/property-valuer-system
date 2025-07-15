@@ -13,7 +13,7 @@
                 <section class="mb-12">
                     <h2 class="text-xl font-semibold text-gray-900 mb-6">Quick Stats</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- Example Cards -->
+                        <!-- Total Invoices Paid -->
                         <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-2 bg-green-100 rounded-lg">
@@ -26,8 +26,10 @@
                                 <span class="text-sm text-green-600 font-medium">+12.5%</span>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Invoices Paid</h3>
-                            <p class="text-3xl font-bold text-gray-900">$45,231</p>
+                            <p class="text-3xl font-bold text-gray-900">${{ number_format($totalPaid ?? 0, 2) }}</p>
                         </div>
+
+                        <!-- Total Invoices Pending -->
                         <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-2 bg-blue-100 rounded-lg">
@@ -40,8 +42,10 @@
                                 <span class="text-sm text-blue-600 font-medium">+8.2%</span>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Invoices Pending</h3>
-                            <p class="text-3xl font-bold text-gray-900">2,543</p>
+                            <p class="text-3xl font-bold text-gray-900">{{ $pendingCount ?? 0 }}</p>
                         </div>
+
+                        <!-- Total Invoices -->
                         <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-2 bg-purple-100 rounded-lg">
@@ -54,8 +58,10 @@
                                 <span class="text-sm text-red-600 font-medium">-2.1%</span>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Invoices</h3>
-                            <p class="text-3xl font-bold text-gray-900">1,423</p>
+                            <p class="text-3xl font-bold text-gray-900">{{ $totalInvoices ?? 0 }}</p>
                         </div>
+
+                        <!-- Total Properties -->
                         <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-2 bg-orange-100 rounded-lg">
@@ -68,7 +74,7 @@
                                 <span class="text-sm text-green-600 font-medium">+5.7%</span>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Property</h3>
-                            <p class="text-3xl font-bold text-gray-900">3.24%</p>
+                            <p class="text-3xl font-bold text-gray-900">{{ $totalProperties ?? 0 }}</p>
                         </div>
                     </div>
                 </section>
@@ -209,7 +215,7 @@
                                             <td class="px-4 py-2">
                                                 @if ($invoice->file_path)
                                                     <a href="{{ asset('storage/' . $invoice->file_path) }}" target="_blank">
-                                                        {{ $invoice->file_name }}
+                                                        {{ $invoice->file_name ?? 'View File' }}
                                                     </a>
                                                 @else
                                                     No file
@@ -219,7 +225,7 @@
                                                 @if ($invoice->property && $invoice->property->file_path)
                                                     <a href="{{ asset('storage/' . $invoice->property->file_path) }}"
                                                        target="_blank">
-                                                        {{ $invoice->property->file_name }}
+                                                        {{ $invoice->property->file_name ?? 'View Surat' }}
                                                     </a>
                                                 @else
                                                     N/A
@@ -233,7 +239,7 @@
                                             <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none"
                                                  stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/>
+                                                      d="M9 17V7m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"/>
                                             </svg>
                                             <h3 class="text-lg font-medium text-gray-900 mb-1">No Invoices Found</h3>
                                             <p class="text-gray-500">You don't have any invoices yet.</p>

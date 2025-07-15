@@ -16,6 +16,12 @@ class ArchiveResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'invoice_number';
 protected static ?string $recordKey = 'invoice_id';
+
+public static function getNavigationSort(): int
+    {
+        return 4;
+    }
+
     public static function table(Table $table): Table
     {
         return $table

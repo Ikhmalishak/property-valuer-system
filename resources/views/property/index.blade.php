@@ -109,14 +109,14 @@
                                                 @endif
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                @if ($property->file_path)
-                                                    <a href="{{ asset('storage/' . $property->invoice->file_path) }}" target="_blank" class="text-blue-600 underline">
-                                                        {{ $property->file_name }}
-                                                    </a>
-                                                @else
-                                                    No file uploaded
-                                                @endif
-                                            </td>
+    @if ($property->invoice)
+        <a href="{{ asset('storage/' . $property->invoice->file_path) }}" target="_blank" class="text-blue-600 underline">
+            {{ $property->invoice->file_name }}
+        </a>
+    @else
+        No file uploaded
+    @endif
+</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

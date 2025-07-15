@@ -46,6 +46,6 @@ class InvoiceStatusChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'pie';
     }
 }

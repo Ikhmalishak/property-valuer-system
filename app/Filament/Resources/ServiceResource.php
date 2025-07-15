@@ -36,6 +36,10 @@ class ServiceResource extends Resource
                     ->required(),
             ]);
     }
+    public static function getNavigationSort(): int
+    {
+        return 6;
+    }
 
     public static function table(Table $table): Table
     {

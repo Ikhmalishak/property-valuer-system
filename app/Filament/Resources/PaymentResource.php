@@ -51,6 +51,11 @@ class PaymentResource extends Resource
             ]);
     }
 
+    public static function getNavigationSort(): int
+    {
+        return 5;
+    }
+
     public static function table(Table $table): Table
     {
         return $table

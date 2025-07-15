@@ -76,7 +76,7 @@
 
         <!-- Testimonials Section -->
         <section class="mb-10">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Testimoni Pelanggan</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Data Statistik JPPH</h2>
 
             <!-- Flowbite Carousel Component -->
             <div id="testimonial-carousel" class="relative w-full bg-blue-700 p-6 rounded-lg" data-carousel="slide">

@@ -41,10 +41,9 @@ class InvoiceReminder extends Notification
 
         return (new MailMessage)
             ->line('Please pay the invoice: ' . $this->invoice->invoice_number)
-            ->action('View Invoice',$url)
-            ->attach(
-            storage_path('app/public/' . $this->invoice->file_path)
-        );
+            ->action('View Invoice', $url)
+            ->attach(storage_path('app/public/' . $this->invoice->file_path))
+            ->attach(storage_path('app/public/' . $this->invoice->property->file_path)); // Second attachment
     }
 
     /**
