@@ -28,7 +28,7 @@ class ArchiveResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_number')->searchable(),
                 Tables\Columns\TextColumn::make('client.name')
-                    ->label('Klien')
+                    ->label('Nama Klien')
                     ->url(fn($record) => \App\Filament\Resources\ClientResource\Pages\ViewProperties::getUrl(['record' => $record->client_id]))
                     ->openUrlInNewTab()
                     ->color('primary')
@@ -36,10 +36,10 @@ class ArchiveResource extends Resource
                     ->html()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('amount')->money('MYR'),
-                Tables\Columns\TextColumn::make('issued_date')->dateTime(),
-                Tables\Columns\TextColumn::make('due_date')->dateTime(),
-                Tables\Columns\TextColumn::make('status')->badge(),
+                Tables\Columns\TextColumn::make('amount')->label('Amaun')->money('MYR'),
+                Tables\Columns\TextColumn::make('issued_date')->label('Tarikh Dikeluarkan')->dateTime(),
+                Tables\Columns\TextColumn::make('due_date')->label('Tarikh Akhir')->dateTime(),
+                Tables\Columns\TextColumn::make('status')->label('Status')->badge(),
             ])
             ->filters([
                 // Add filters here if needed

@@ -38,32 +38,32 @@ public static function form(Form $form): Form
             ->schema([
                 Select::make('client_id')
                     ->relationship('client', 'name')
-                    ->label('Client')
+                    ->label('ID Klien')
                     ->required(),
 
                 Select::make('property_id')
-                    ->label('Property')
+                    ->label('Harta')
                     ->options(Property::all()->pluck('nombor_kait', 'id')) // assuming nombor_kait is property identifier
                     ->required()
                     ->searchable()
                     ->preload(),
 
                 TextInput::make('invoice_number')
-                    ->label('Invoice Number')
+                    ->label('Nombor Invois')
                     ->required()
                     ->maxLength(255),
 
                 TextInput::make('amount')
-                    ->label('Amount (MYR)')
+                    ->label('Amaun (MYR)')
                     ->numeric()
                     ->required(),
 
                 DateTimePicker::make('due_date')
-                    ->label('Due Date')
+                    ->label('Tarikh Akhir')
                     ->required(),
 
                 Select::make('reminder_frequency')
-                    ->label('Reminder Frequency')
+                    ->label('Kekerapan Peringatan')
                     ->options([
                         'daily' => 'Daily',
                         'weekly' => 'Weekly',
@@ -82,15 +82,15 @@ public static function form(Form $form): Form
                     ->required(),
 
                 DateTimePicker::make('issued_date')
-                    ->label('Issued Date')
+                    ->label('Tarikh Dikeluarkan')
                     ->required(),
 
                 DateTimePicker::make('last_reminder_sent')
-                    ->label('Last Reminder Sent')
+                    ->label('Tarikh Peringatan Terakhir Dihantar')
                     ->nullable(),
 
                 FileUpload::make('file_path')
-                    ->label('Invoice Document')
+                    ->label('Invois Dokumen')
                     ->directory('invoices') // stored in storage/app/public/invoices
                     ->disk('public')
                     ->preserveFilenames()
@@ -98,7 +98,7 @@ public static function form(Form $form): Form
                     ->storeFileNamesIn('file_name'), // This automatically stores the original filename
 
                 TextInput::make('file_name')
-                    ->label('File Name')
+                    ->label('Nama Fail')
                     ->readonly() // Change from disabled() to readonly() so it can still be updated programmatically
                     ->dehydrated(true) // Ensure it's included in form data
                     ->hidden(), // Hide this field since it's automatically populated
@@ -116,7 +116,7 @@ public static function getNavigationSort(): int
         return $table
             ->columns([
                 TextColumn::make('client.name')
-                    ->label('Client')
+                    ->label('Nama Klien')
                     ->url(fn($record) => ViewProperties::getUrl(['record' => $record->client_id]))
                     ->openUrlInNewTab()
                     ->color('primary')
@@ -126,21 +126,21 @@ public static function getNavigationSort(): int
                     ->searchable(),
 
                 TextColumn::make('property.nombor_kait')
-                    ->label('Property')
+                    ->label('Nombor Kait')
                     ->searchable(),
 
                 TextColumn::make('invoice_number')
-                    ->label('Invoice Number')
+                    ->label('Nombor Invois')
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('amount')
-                    ->label('Amount (MYR)')
+                    ->label('Amaun (MYR)')
                     ->money('MYR')
                     ->sortable(),
 
                 TextColumn::make('due_date')
-                    ->label('Due Date')
+                    ->label('Tarikh Akhir')
                     ->dateTime()
                     ->sortable(),
 
@@ -152,11 +152,11 @@ public static function getNavigationSort(): int
                     }),
 
                 TextColumn::make('issued_date')
-                    ->label('Issued Date')
+                    ->label('Tarikh Dikeluarkan')
                     ->dateTime(),
 
                 TextColumn::make('file_name')
-                    ->label('Invoice Documents')
+                    ->label('Invois Dokumen')
                     ->url(fn($record) => $record->file_path
                         ? asset('storage/' . $record->file_path)
                         : null)
@@ -174,7 +174,7 @@ public static function getNavigationSort(): int
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('reminder_frequency')
-                    ->label('Reminder Frequency')
+                    ->label('Kekerapan Peringatan')
                     ->options([
                         'none' => 'None',
                         'weekly' => 'Weekly',
@@ -242,5 +242,9 @@ public static function getNavigationSort(): int
     public static function getNavigationLabel(): string
     {
         return 'Invois';  // Change 'Home' to your desired dashboard name
+    }
+    public static function getPluralLabel(): string
+    {
+        return 'Invois'; // new plural name
     }
 }

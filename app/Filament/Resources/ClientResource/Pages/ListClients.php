@@ -13,7 +13,23 @@ class ListClients extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Tambah Klien'),
         ];
+
     }
+    public function getTitle(): string
+    {
+        return 'Senarai Klien'; // page title
+    }
+
+    public static function getLabel(): string
+    {
+        return 'Klien'; // new singular name
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return 'Klien'; // new plural name
+    }
+
 }

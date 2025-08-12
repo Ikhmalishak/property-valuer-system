@@ -25,13 +25,15 @@ class DocumentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('file_name')
+                    ->label('Nama Dokumen')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('file_type')
+                    ->label('Jenis Dokumen')
                     ->required()
                     ->maxLength(255),
                 FileUpload::make('file_path')
-                    ->label('Document File')
+                    ->label('Lokasi Dokumen')
                     ->directory('documents') // stored in storage/app/public/documents
                     ->disk('public') // or 's3' if needed
                     ->preserveFilenames()
@@ -51,16 +53,21 @@ class DocumentResource extends Resource
             ->columns([
 
                 Tables\Columns\TextColumn::make('file_name')
+                ->label('Nama Dokumen')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('file_type')
+                    ->label('Jenis Dokumen')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('file_path')
+                    ->label('Lokasi Dokumen')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tarikh Dicipta')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Tarikh Dikemaskini')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -99,5 +106,9 @@ class DocumentResource extends Resource
     public static function getNavigationLabel(): string
     {
         return 'Dokumen';  // Change 'Home' to your desired dashboard name
+    }
+    public static function getPluralLabel(): string
+    {
+        return 'Dokument'; // new plural name
     }
 }

@@ -40,7 +40,7 @@ class ClientResource extends Resource
     {
         return $table->columns([
             TextColumn::make('name')
-                ->label('Client Name')
+                ->label('Name Klien')
                 ->url(fn($record) => ViewProperties::getUrl(['record' => $record->id]))
                 ->openUrlInNewTab()
                 ->color('primary')
@@ -49,9 +49,9 @@ class ClientResource extends Resource
                 ->searchable()
                 ->sortable(),
 
-            TextColumn::make('email')->searchable(),
-            TextColumn::make('branch'),
-            TextColumn::make('created_at')->dateTime()->label('Created'),
+            TextColumn::make('email')->label('Email')->searchable(),
+            TextColumn::make('branch')->label('Cawangan'),
+            TextColumn::make('created_at')->dateTime()->label('Tarikh Dicipta'),
         ])
             ->filters([])
             ->actions([
@@ -85,5 +85,9 @@ class ClientResource extends Resource
     public static function getNavigationLabel(): string
     {
         return 'Klien';  // Change 'Home' to your desired dashboard name
+    }
+    public static function getPluralLabel(): string
+    {
+        return 'Klien'; // new plural name
     }
 }
