@@ -239,5 +239,8 @@ public static function getNavigationSort(): int
 
         return $data;
     }
-
+    public static function getNavigationLabel(): string
+    {
+        return 'Invois';  // Change 'Home' to your desired dashboard name
+    }
 }

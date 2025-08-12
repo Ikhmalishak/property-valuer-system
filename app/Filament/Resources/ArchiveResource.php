@@ -15,9 +15,9 @@ class ArchiveResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?string $recordTitleAttribute = 'invoice_number';
-protected static ?string $recordKey = 'invoice_id';
+    protected static ?string $recordKey = 'invoice_id';
 
-public static function getNavigationSort(): int
+    public static function getNavigationSort(): int
     {
         return 4;
     }
@@ -28,14 +28,14 @@ public static function getNavigationSort(): int
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_number')->searchable(),
                 Tables\Columns\TextColumn::make('client.name')
-                ->label('Client')
-                ->url(fn($record) => \App\Filament\Resources\ClientResource\Pages\ViewProperties::getUrl(['record' => $record->client_id]))
-                ->openUrlInNewTab()
-                ->color('primary')
-                ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
-                ->html()
-                ->sortable()
-                ->searchable(),
+                    ->label('Klien')
+                    ->url(fn($record) => \App\Filament\Resources\ClientResource\Pages\ViewProperties::getUrl(['record' => $record->client_id]))
+                    ->openUrlInNewTab()
+                    ->color('primary')
+                    ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
+                    ->html()
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('amount')->money('MYR'),
                 Tables\Columns\TextColumn::make('issued_date')->dateTime(),
                 Tables\Columns\TextColumn::make('due_date')->dateTime(),
@@ -64,5 +64,10 @@ public static function getNavigationSort(): int
             'index' => Pages\ListArchives::route('/'),
             'view' => Pages\ViewArchive::route('/{record}'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Arkib';  // Change 'Home' to your desired dashboard name
     }
 }

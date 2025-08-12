@@ -91,4 +91,9 @@ class ServiceResource extends Resource
             'edit' => Pages\EditService::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Perkhidmatan';  // Change 'Home' to your desired dashboard name
+    }
 }

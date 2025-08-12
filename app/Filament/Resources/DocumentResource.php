@@ -49,7 +49,7 @@ class DocumentResource extends Resource
     {
         return $table
             ->columns([
-              
+
                 Tables\Columns\TextColumn::make('file_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('file_type')
@@ -94,5 +94,10 @@ class DocumentResource extends Resource
             'view' => Pages\ViewDocument::route('/{record}'),
             'edit' => Pages\EditDocument::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Dokumen';  // Change 'Home' to your desired dashboard name
     }
 }

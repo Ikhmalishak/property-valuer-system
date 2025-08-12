@@ -63,12 +63,12 @@ class PropertyResource extends Resource
     {
         return $table->columns([
             TextColumn::make('client.name')->label('Client')->url(fn($record) => ListInvoices::getUrl(['filters' => ['client_id' => $record->client_id]]))
-    ->openUrlInNewTab()
-    ->color('primary')
-    ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
-    ->html()
-    ->sortable()
-    ->searchable(),
+                ->openUrlInNewTab()
+                ->color('primary')
+                ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
+                ->html()
+                ->sortable()
+                ->searchable(),
             TextColumn::make('nombor_kait')->searchable(),
             TextColumn::make('nombor_lot')->searchable(),
             TextColumn::make('nombor_geran')->searchable(),
@@ -85,43 +85,43 @@ class PropertyResource extends Resource
             TextColumn::make('created_at')->dateTime(),
         ])
             ->filters([
-  // Filter by Client
-            SelectFilter::make('client_id')
-                ->relationship('client', 'name')
+                // Filter by Client
+                SelectFilter::make('client_id')
+                    ->relationship('client', 'name')
 
-                ->label('Filter by Client')
-                ->searchable()
-                ->preload(),
+                    ->label('Filter by Client')
+                    ->searchable()
+                    ->preload(),
 
-            // Filter by Daerah
-            SelectFilter::make('daerah')
-                ->options(function () {
-                    return Property::query()
-                        ->distinct()
-                        ->pluck('daerah', 'daerah');
-                })
-                ->label('Daerah'),
+                // Filter by Daerah
+                SelectFilter::make('daerah')
+                    ->options(function () {
+                        return Property::query()
+                            ->distinct()
+                            ->pluck('daerah', 'daerah');
+                    })
+                    ->label('Daerah'),
 
-            // Filter by Mukim
-            SelectFilter::make('mukim')
-                ->options(function () {
-                    return Property::query()
-                        ->distinct()
-                        ->pluck('mukim', 'mukim');
-                })
-                ->label('Mukim'),
+                // Filter by Mukim
+                SelectFilter::make('mukim')
+                    ->options(function () {
+                        return Property::query()
+                            ->distinct()
+                            ->pluck('mukim', 'mukim');
+                    })
+                    ->label('Mukim'),
 
-            // Filter by Created Date Range
-            Filter::make('created_at')
-                ->form([
-                    Forms\Components\DatePicker::make('created_from'),
-                    Forms\Components\DatePicker::make('created_until'),
-                ])
-                ->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when($data['created_from'], fn($q, $date) => $q->whereDate('created_at', '>=', $date))
-                        ->when($data['created_until'], fn($q, $date) => $q->whereDate('created_at', '<=', $date));
-                }),
+                // Filter by Created Date Range
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from'),
+                        Forms\Components\DatePicker::make('created_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when($data['created_from'], fn($q, $date) => $q->whereDate('created_at', '>=', $date))
+                            ->when($data['created_until'], fn($q, $date) => $q->whereDate('created_at', '<=', $date));
+                    }),
 
             ])
             ->actions([
@@ -149,5 +149,10 @@ class PropertyResource extends Resource
             'create' => Pages\CreateProperty::route('/create'),
             'edit' => Pages\EditProperty::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Harta';  // Change 'Home' to your desired dashboard name
     }
 }

@@ -119,4 +119,9 @@ class PaymentResource extends Resource
             'edit' => Pages\EditPayment::route('/{record}/edit'),
         ];
     }
+
+        public static function getNavigationLabel(): string
+    {
+        return 'Pembayaran';  // Change 'Home' to your desired dashboard name
+    }
 }

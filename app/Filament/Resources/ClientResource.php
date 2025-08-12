@@ -39,15 +39,15 @@ class ClientResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-        TextColumn::make('name')
-            ->label('Client Name')
-            ->url(fn($record) => ViewProperties::getUrl(['record' => $record->id]))
-            ->openUrlInNewTab()
-            ->color('primary')
-            ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
-            ->html()
-            ->searchable()
-            ->sortable(),
+            TextColumn::make('name')
+                ->label('Client Name')
+                ->url(fn($record) => ViewProperties::getUrl(['record' => $record->id]))
+                ->openUrlInNewTab()
+                ->color('primary')
+                ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
+                ->html()
+                ->searchable()
+                ->sortable(),
 
             TextColumn::make('email')->searchable(),
             TextColumn::make('branch'),
@@ -74,11 +74,16 @@ class ClientResource extends Resource
 
     public static function getPages(): array
     {
-         return [
-        'index' => Pages\ListClients::route('/'),
-        'create' => Pages\CreateClient::route('/create'),
-        'edit' => Pages\EditClient::route('/{record}/edit'),
-        'view-properties' => Pages\ViewProperties::route('/view-properties/{record}'),
-    ];
+        return [
+            'index' => Pages\ListClients::route('/'),
+            'create' => Pages\CreateClient::route('/create'),
+            'edit' => Pages\EditClient::route('/{record}/edit'),
+            'view-properties' => Pages\ViewProperties::route('/view-properties/{record}'),
+        ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Klien';  // Change 'Home' to your desired dashboard name
     }
 }
