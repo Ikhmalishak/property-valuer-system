@@ -18,4 +18,14 @@ class CreateClient extends CreateRecord
 
         return parent::handleRecordCreation($data);
     }
+
+    public function getTitle(): string
+    {
+        return 'Tambah Klien'; // page title
+    }
+        // Change breadcrumb text
+    public function getBreadcrumb(): string
+    {
+        return 'Cipta';
+    }
 }
