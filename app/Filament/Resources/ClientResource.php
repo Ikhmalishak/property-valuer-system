@@ -25,9 +25,9 @@ class ClientResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            TextInput::make('name')->required()->maxLength(255),
-            TextInput::make('email')->email()->required()->maxLength(255),
-            TextInput::make('branch')->maxLength(255),
+            TextInput::make('name')->label('Nama')->required()->maxLength(255),
+            TextInput::make('email')->label('Email')->email()->required()->maxLength(255),
+            TextInput::make('branch')->label('Cawangan')->maxLength(255),
         ]);
     }
 

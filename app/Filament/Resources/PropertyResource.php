@@ -29,7 +29,7 @@ class PropertyResource extends Resource
     {
         return $form->schema([
             Select::make('client_id')
-                ->label('Client')
+                ->label('Klien')
                 ->relationship('client', 'name')
                 ->required(),
             TextInput::make('nombor_kait')->required(),
@@ -38,7 +38,7 @@ class PropertyResource extends Resource
             TextInput::make('daerah')->required(),
             TextInput::make('mukim')->required(),
             FileUpload::make('file_path')
-                ->label('Property Document')
+                ->label('Dokumen Hartanah')
                 ->directory('properties') // stored in storage/app/public/invoices
                 ->disk('public')
                 ->preserveFilenames()
@@ -62,7 +62,7 @@ class PropertyResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            TextColumn::make('client.name')->label('Client')->url(fn($record) => ListInvoices::getUrl(['filters' => ['client_id' => $record->client_id]]))
+            TextColumn::make('client.name')->label('Klien')->url(fn($record) => ListInvoices::getUrl(['filters' => ['client_id' => $record->client_id]]))
                 ->openUrlInNewTab()
                 ->color('primary')
                 ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
