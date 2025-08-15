@@ -23,9 +23,9 @@ class CreateClient extends CreateRecord
     {
         return 'Tambah Klien'; // page title
     }
-        // Change breadcrumb text
+    // Change breadcrumb text
     public function getBreadcrumb(): string
     {
-        return 'Cipta';
+        return 'Cipta Klien';
     }
 }

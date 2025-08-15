@@ -7,7 +7,7 @@ use App\Models\Invoice;
 
 class InvoiceStatusChart extends ChartWidget
 {
-    protected static ?string $heading = 'Invoices by Status';
+    protected static ?string $heading = 'Invois Mengikut Status';
 
     protected function getData(): array
     {
@@ -37,9 +37,9 @@ class InvoiceStatusChart extends ChartWidget
                 ],
             ],
             'labels' => [
-                'Pending',
-                'Paid',
-                'Overdue',
+                'Menunggu',
+                'Dibayar',
+                'Tertunggak',
             ],
         ];
     }

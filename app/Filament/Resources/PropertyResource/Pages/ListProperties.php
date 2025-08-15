@@ -16,4 +16,14 @@ class ListProperties extends ListRecords
             Actions\CreateAction::make()->label('Tambah Hartanah'),
         ];
     }
+
+    public static function getPluralLabel(): string
+    {
+        return 'Klien'; // new singular name
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Senarai Hartanah';
+    }
 }

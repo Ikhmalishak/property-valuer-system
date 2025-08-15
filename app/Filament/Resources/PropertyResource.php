@@ -155,4 +155,9 @@ class PropertyResource extends Resource
     {
         return 'Harta';  // Change 'Home' to your desired dashboard name
     }
+
+    public static function getPluralLabel(): string
+    {
+        return 'Hartanah'; // new plural name
+    }
 }

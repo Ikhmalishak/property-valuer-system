@@ -17,19 +17,9 @@ class ListClients extends ListRecords
         ];
 
     }
-    public function getTitle(): string
-    {
-        return 'Senarai Klien'; // page title
-    }
 
-    public static function getLabel(): string
+    public function getBreadcrumb(): string
     {
-        return 'Klien'; // new singular name
+        return 'Senarai Klien';
     }
-
-    public static function getPluralLabel(): string
-    {
-        return 'Klien'; // new plural name
-    }
-
 }
