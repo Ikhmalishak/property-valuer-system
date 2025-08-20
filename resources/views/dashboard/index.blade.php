@@ -42,7 +42,7 @@
                                 <span class="text-sm text-blue-600 font-medium">+8.2%</span>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Invoices Pending</h3>
-                            <p class="text-3xl font-bold text-gray-900">{{ $pendingCount ?? 0 }}</p>
+                            <p class="text-3xl font-bold text-gray-900">{{ $pendingSum ?? 0 }}</p>
                         </div>
 
                         <!-- Total Invoices -->
@@ -61,7 +61,7 @@
                             <p class="text-3xl font-bold text-gray-900">{{ $totalInvoices ?? 0 }}</p>
                         </div>
 
-                        <!-- Total Properties -->
+                        <!-- Total Pending Invoices -->
                         <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-2 bg-orange-100 rounded-lg">
@@ -73,8 +73,8 @@
                                 </div>
                                 <span class="text-sm text-green-600 font-medium">+5.7%</span>
                             </div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Property</h3>
-                            <p class="text-3xl font-bold text-gray-900">{{ $totalProperties ?? 0 }}</p>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Total Pending</h3>
+                            <p class="text-3xl font-bold text-gray-900">{{ $pendingCount ?? 0 }}</p>
                         </div>
                     </div>
                 </section>
@@ -97,10 +97,7 @@
                                               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                     </svg>
                                 </div>
-                                <button id="openInvoiceFormButton"
-                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Add New Invoice
-                                </button>
+                              
                             </div>
                         </div>
                     </div>
@@ -185,6 +182,10 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombor Kait</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice Number</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombor Lot</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombor Geran</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Daerah</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mukim</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
@@ -201,7 +202,19 @@
                                                 {{ $invoice->property->nombor_kait ?? 'N/A' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $invoice->invoice_number }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${{ number_format($invoice->amount, 2) }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+    {{ $invoice->property->nombor_lot ?? 'N/A' }}
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+    {{ $invoice->property->nombor_geran ?? 'N/A' }}
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+    {{ $invoice->property->daerah ?? 'N/A' }}
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+    {{ $invoice->property->mukim ?? 'N/A' }}
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${{ number_format($invoice->amount, 2) }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                                 @if($invoice->status === 'paid')
                                                     <span class="text-green-600 font-medium">Paid</span>

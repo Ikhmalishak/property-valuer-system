@@ -24,6 +24,11 @@ class Invoice extends Model
         'file_name',
         'file_type',
         'file_path',
+           // New files
+    'file_path2',
+    'file_name2',
+    'file_path3',
+    'file_name3',
     ];
 
     public function client()
@@ -36,6 +41,13 @@ class Invoice extends Model
         return $this->belongsTo(\App\Models\Property::class, 'property_id');
     }
 
+      protected $casts = [
+        'due_date' => 'datetime',
+        'issued_date' => 'datetime',
+        'last_reminder_sent' => 'datetime',
+        'amount' => 'decimal:2', // optional: if you want money precision
+    ];
+    
     public function sendFirstReminder()
     {
         $this->client->notify(new InvoiceReminder($this));

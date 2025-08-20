@@ -38,7 +38,7 @@ class ClientResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table->columns([
+         return $table->columns([
             TextColumn::make('name')
                 ->label('Name Klien')
                 ->url(fn($record) => ViewProperties::getUrl(['record' => $record->id]))
@@ -51,9 +51,25 @@ class ClientResource extends Resource
 
             TextColumn::make('email')->label('Email')->searchable(),
             TextColumn::make('branch')->label('Cawangan'),
-            TextColumn::make('created_at')->dateTime()->label('Tarikh Dicipta'),
         ])
-            ->filters([])
+            ->filters([
+
+
+  Tables\Filters\SelectFilter::make('branch')
+                    ->label('Cawangan')
+                    ->options(function () {
+                        return \App\Models\Client::query()
+                            ->pluck('branch')
+                            ->unique()
+                            ->filter()
+                            ->mapWithKeys(fn ($branch) => [$branch => $branch])
+                            ->toArray();
+                    })
+                    ->searchable(),
+
+
+
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -75,7 +91,7 @@ class ClientResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListClients::route('/'),
+                     'index' => Pages\ListClients::route('/'),
             'create' => Pages\CreateClient::route('/create'),
             'edit' => Pages\EditClient::route('/{record}/edit'),
             'view-properties' => Pages\ViewProperties::route('/view-properties/{record}'),

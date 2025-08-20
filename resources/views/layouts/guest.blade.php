@@ -14,7 +14,7 @@
 <body class="font-sans text-gray-900 antialiased">
     <div
         class="min-h-screen flex flex-col sm:justify-center items-center px-4 py-6 bg-cover bg-center bg-no-repeat relative"
-        style="background-image: url('{{ asset('images/images12.jpeg') }}');">
+        style="background-image: url('{{ asset('images/images12.jpg') }}');">
         
         <!-- Dark overlay for better text readability -->
         <div class="absolute inset-0 bg-black/40"></div>

@@ -16,4 +16,13 @@ class Archive extends Model
     {
         return $this->belongsTo(\App\Models\Client::class, 'client_id');
     }
+     public function property()
+    {
+        return $this->belongsTo(Property::class);
+    }
+
+    protected $casts = [
+    'due_date' => 'datetime',
+    'issued_date' => 'datetime',
+];
 }

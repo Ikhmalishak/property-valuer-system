@@ -52,11 +52,11 @@ class ServiceResource extends Resource
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+    Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                                   Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -96,4 +96,8 @@ class ServiceResource extends Resource
     {
         return 'Perkhidmatan';  // Change 'Home' to your desired dashboard name
     }
+    public static function shouldRegisterNavigation(): bool
+{
+    return false;
+}
 }

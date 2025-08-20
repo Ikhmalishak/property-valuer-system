@@ -18,6 +18,10 @@ class Property extends Model
     {
         return $this->hasOne(Invoice::class, 'property_id');
     }
-
+protected $casts = [
+    'created_at' => 'datetime', 
+    // Add any other date fields if needed, e.g.
+    'date_of_acquisition' => 'datetime', // example
+];
 
 }

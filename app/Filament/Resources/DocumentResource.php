@@ -111,4 +111,9 @@ class DocumentResource extends Resource
     {
         return 'Dokument'; // new plural name
     }
+
+    public static function shouldRegisterNavigation(): bool
+{
+    return false;
+}
 }

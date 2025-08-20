@@ -33,10 +33,11 @@ class DashboardController extends Controller
 
     // Calculate stats
     $totalPaid = $allInvoices->where('status', 'paid')->sum('amount');
-    $pendingCount = $allInvoices->where('status', 'unpaid')->count();
+   $pendingSum = Invoice::whereNot('status', 'paid')->sum('amount');
     $totalInvoices = $allInvoices->count();
-    $totalProperties = Property::where('client_id', $client->id)->count();
-
+   $pendingCount = Invoice::whereNot('status', 'paid')->count();
+   
+ 
     // Paginate only the latest invoices for table
     $invoices = Invoice::where('client_id', $client->id)
         ->with('property')
@@ -50,9 +51,9 @@ class DashboardController extends Controller
         'properties',
         'user',
         'totalPaid',
-        'pendingCount',
+        'pendingSum',
         'totalInvoices',
-        'totalProperties'
+        'pendingCount'
     ));
 }
 }

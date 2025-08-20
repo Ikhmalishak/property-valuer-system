@@ -124,4 +124,10 @@ class PaymentResource extends Resource
     {
         return 'Pembayaran';  // Change 'Home' to your desired dashboard name
     }
+
+      // 👇 This hides the "Payments" from the sidebar navigation
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 }

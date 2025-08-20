@@ -75,14 +75,13 @@ class PropertyResource extends Resource
             TextColumn::make('daerah'),
             TextColumn::make('mukim'),
             TextColumn::make('file_name')
-                ->label('File')
+                ->label('Surat Iringan')
                 ->url(fn($record) => $record->file_path
                     ? asset('storage/' . $record->file_path)
                     : null)
                 ->openUrlInNewTab()
                 ->limit(30)
                 ->tooltip(fn($record) => $record->file_name),
-            TextColumn::make('created_at')->dateTime(),
         ])
             ->filters([
                 // Filter by Client
@@ -159,5 +158,9 @@ class PropertyResource extends Resource
     public static function getPluralLabel(): string
     {
         return 'Hartanah'; // new plural name
+    }
+      public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 }

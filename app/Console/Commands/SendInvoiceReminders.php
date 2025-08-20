@@ -20,13 +20,13 @@ class SendInvoiceReminders extends Command
         $invoices = Invoice::where('status', '!=', 'paid')->get();
 
         foreach ($invoices as $invoice) {
-            $lastSent = $invoice->last_reminder_sent ?? $invoice->issued_date;
+            $lastSent = $invoice->due_date ?? $invoice->issued_date;
             $shouldSend = false;
 
             switch ($invoice->reminder_frequency) {
-                case 'weekly':
+                case 'bi-weekly':
                     // Send on Fridays, at least 7 days since last reminder
-                    if ($now->diffInDays($lastSent,true) >= 7) {
+                    if ($now->diffInDays($lastSent,true) >= 14) {
                         $shouldSend = true;
                     }
                     break;

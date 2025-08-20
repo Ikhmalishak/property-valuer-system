@@ -65,10 +65,8 @@ public static function form(Form $form): Form
                 Select::make('reminder_frequency')
                     ->label('Kekerapan Peringatan')
                     ->options([
-                        'daily' => 'Daily',
-                        'weekly' => 'Weekly',
-                        'monthly' => 'Monthly',
-                        'none' => 'None',
+                        'bi-weekly' => '14 Hari',
+                        'monthly' => 'Bulanan',
                     ])
                     ->required(),
 
@@ -96,6 +94,21 @@ public static function form(Form $form): Form
                     ->preserveFilenames()
                     ->nullable()
                     ->storeFileNamesIn('file_name'), // This automatically stores the original filename
+
+                    FileUpload::make('file_path2')
+                ->label('Invois Dokumen 2')
+                ->directory('invoices/extra')
+                ->disk('public')
+                ->preserveFilenames()
+                ->storeFileNamesIn('file_name2'),
+
+            FileUpload::make('file_path3')
+                ->label('Invois Dokumen 3')
+                ->directory('invoices/extra')
+                ->disk('public')
+                ->preserveFilenames()
+                ->storeFileNamesIn('file_name3'),
+
 
                 TextInput::make('file_name')
                     ->label('Nama Fail')
@@ -134,36 +147,29 @@ public static function getNavigationSort(): int
                     ->sortable()
                     ->searchable(),
 
+                TextColumn::make('property.nombor_lot')
+                    ->label('Nombor Lot')
+                    ->searchable(),
+
+                TextColumn::make('property.nombor_geran')
+                    ->label('Nombor Geran')
+                    ->searchable(),
+
+                TextColumn::make('property.daerah')
+                    ->label('Daerah')
+                    ->searchable(),
+
+                TextColumn::make('property.mukim')
+                    ->label('Mukim')
+                    ->searchable(),
+
                 TextColumn::make('amount')
                     ->label('Amaun (MYR)')
                     ->money('MYR')
                     ->sortable(),
 
-                TextColumn::make('due_date')
-                    ->label('Tarikh Akhir')
-                    ->dateTime()
-                    ->sortable(),
 
-                TextColumn::make('status')
-                    ->label('Status')
-                    ->sortable()
-                    ->color(static function ($state, $record) {
-                        return $record->status === 'paid' ? 'success' : 'danger';
-                    }),
-
-                TextColumn::make('issued_date')
-                    ->label('Tarikh Dikeluarkan')
-                    ->dateTime(),
-
-                TextColumn::make('file_name')
-                    ->label('Invois Dokumen')
-                    ->url(fn($record) => $record->file_path
-                        ? asset('storage/' . $record->file_path)
-                        : null)
-                    ->limit(30)
-                    ->tooltip(fn($record) => $record->file_name),
-
-                TextColumn::make('property.file_name')
+              TextColumn::make('property.file_name')
                     ->label('Surat Iringan')
                     ->url(fn($record) => $record->property->file_path
                         ? asset('storage/' . $record->property->file_path)
@@ -171,14 +177,53 @@ public static function getNavigationSort(): int
                     ->openUrlInNewTab()
                     ->limit(30)
                     ->tooltip(fn($record) => $record->file_name),
+                    
+                    TextColumn::make('file_name')
+                    ->label('Invois')
+                    ->url(fn($record) => $record->file_path
+                        ? asset('storage/' . $record->file_path)
+                        : null)
+                    ->limit(30)
+                    ->tooltip(fn($record) => $record->file_name),
+
+                      TextColumn::make('file_name2')
+                ->label('Peringatan Kedua')
+                ->url(fn($record) => $record->file_path2 ? asset('storage/' . $record->file_path2) : null)
+                ->openUrlInNewTab()
+                ->limit(25)
+                ->tooltip(fn($record) => $record->file_name2),
+
+            TextColumn::make('file_name3')
+                ->label('Peringatan Ketiga')
+                ->url(fn($record) => $record->file_path3 ? asset('storage/' . $record->file_path3) : null)
+                ->openUrlInNewTab()
+                ->limit(25)
+                ->tooltip(fn($record) => $record->file_name3),
+
+              
+
+                        TextColumn::make('status')
+                    ->label('Status')
+                    ->sortable()
+                    ->color(static function ($state, $record) {
+                        return $record->status === 'paid' ? 'success' : 'danger';
+                    }),
+
+                    
+               TextColumn::make('due_date')
+    ->label('Tarikh Akhir')
+    ->formatStateUsing(fn($state) => $state?->format('Y-m-d')),
+
+TextColumn::make('issued_date')
+    ->label('Tarikh Dikeluarkan')
+    ->formatStateUsing(fn($state) => $state?->format('Y-m-d')),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('reminder_frequency')
                     ->label('Kekerapan Peringatan')
                     ->options([
-                        'none' => 'None',
-                        'weekly' => 'Weekly',
-                        'monthly' => 'Monthly',
+                        'bi-weekly' => '14 Hari',
+                        'monthly' => 'Bulanan',
                     ]),
                 Tables\Filters\SelectFilter::make('status')
                     ->label('Status')
