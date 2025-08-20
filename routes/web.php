@@ -18,8 +18,15 @@ use App\Http\Controllers\DocumentController;
 */
 
 // Public landing page
+
+// Redirect the homepage to login by default
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
+});
+
+// Your login route (this already works)
+Route::get('/login', function () {
+    return view('auth.login'); // or whatever your login view is
 });
 
 // Authenticated user routes
