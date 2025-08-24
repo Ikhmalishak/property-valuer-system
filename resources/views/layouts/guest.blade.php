@@ -12,18 +12,27 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans text-gray-900 antialiased">
-    <div
-        class="min-h-screen flex flex-col sm:justify-center items-center px-4 py-6 bg-cover bg-center bg-no-repeat relative"
-        style="background-image: url('{{ asset('images/images12.jpg') }}');">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center px-4 py-6 relative">
+        
+        <!-- Blurred background image -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+             style="background-image: url('{{ asset('images/images12.jpg') }}'); filter: blur(3px);"></div>
         
         <!-- Dark overlay for better text readability -->
         <div class="absolute inset-0 bg-black/40"></div>
         
         <!-- Content wrapper with higher z-index -->
         <div class="relative z-10 flex flex-col items-center">
+            <!-- Very big title -->
+            <div class="mb-8">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-2xl text-center tracking-wider">
+                    E-Notis JPPH
+                </h1>
+            </div>
+            
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-white drop-shadow-lg" />
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-20 h-20 drop-shadow-lg" />
                 </a>
             </div>
             <div

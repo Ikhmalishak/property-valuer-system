@@ -35,17 +35,27 @@ class InvoiceReminder extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
-    {
-        $url = asset('storage/' . $this->invoice->file_path);
+public function toMail(object $notifiable): MailMessage
+{
+    $invoice = $this->invoice;
+    $currentFilePath = $invoice->getCurrentInvoiceFilePath();
 
-        return (new MailMessage)
-            ->line('Please pay the invoice: ' . $this->invoice->invoice_number)
-            ->action('View Invoice', $url)
-            ->attach(storage_path('app/public/' . $this->invoice->file_path))
-            ->attach(storage_path('app/public/' . $this->invoice->property->file_path)); // Second attachment
-    }
+    // Format amount (adjust field name if needed)
+    $amount = 'RM ' . number_format($invoice->amount, 2); // e.g., $invoice->total
 
+    // Generate URL to view invoice
+    $url = asset('storage/' . $currentFilePath);
+
+    return (new MailMessage)
+        ->subject("Peringatan Invois: {$invoice->invoice_number}")
+        ->view('emails.test-email', [
+            'invoice' => $invoice,
+            'amount' => $amount,
+            'url' => $url,
+        ])
+        ->attach(storage_path('app/public/' . $currentFilePath))
+        ->attach(storage_path('app/public/' . $invoice->property->file_path));
+}
     /**
      * Get the array representation of the notification.
      *

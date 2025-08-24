@@ -159,8 +159,5 @@ class PropertyResource extends Resource
     {
         return 'Hartanah'; // new plural name
     }
-      public static function shouldRegisterNavigation(): bool
-    {
-        return false;
-    }
+    
 }

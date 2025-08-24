@@ -83,9 +83,7 @@ public static function form(Form $form): Form
                     ->label('Tarikh Dikeluarkan')
                     ->required(),
 
-                DateTimePicker::make('last_reminder_sent')
-                    ->label('Tarikh Peringatan Terakhir Dihantar')
-                    ->nullable(),
+              
 
                 FileUpload::make('file_path')
                     ->label('Invois Dokumen')
