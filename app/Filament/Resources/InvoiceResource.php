@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DocumentsResource\RelationManagers\DocumentsRelationManager;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Models\Invoice;
 use Filament\Forms;
@@ -10,29 +9,27 @@ use Filament\Forms\Form;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
-use App\Mail\TestEmail;
-use Illuminate\Support\Facades\Mail;
 use Filament\Notifications\Notification;
 use App\Filament\Resources\ClientResource\Pages\ViewProperties;
-use App\Models\Property; 
+use App\Models\Property;
 use Filament\Tables\Filters\SelectFilter;
 
 class InvoiceResource extends Resource
 {
     protected static ?string $model = Invoice::class;
+    
+       protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-public static function form(Form $form): Form
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -43,7 +40,7 @@ public static function form(Form $form): Form
 
                 Select::make('property_id')
                     ->label('Harta')
-                    ->options(Property::all()->pluck('nombor_kait', 'id')) // assuming nombor_kait is property identifier
+                    ->options(Property::all()->pluck('nombor_kait', 'id'))
                     ->required()
                     ->searchable()
                     ->preload(),
@@ -59,15 +56,18 @@ public static function form(Form $form): Form
                     ->required(),
 
                 DateTimePicker::make('due_date')
-                    ->label('Tarikh Akhir')
+                    ->label('Tarikh Akhir (tarikh akhir penghantaran peringatan)')
                     ->required(),
 
                 Select::make('reminder_frequency')
                     ->label('Kekerapan Peringatan')
                     ->options([
-                        'bi-weekly' => '14 Hari',
-                        'monthly' => 'Bulanan',
+                        '1_minute' => '1 Minit',
+                        '7_days' => '7 Hari',
+                        '14_days' => '14 Hari',
+                        '30_days' => '30 Hari',
                     ])
+                    ->default('14_days')
                     ->required(),
 
                 Select::make('status')
@@ -80,46 +80,39 @@ public static function form(Form $form): Form
                     ->required(),
 
                 DateTimePicker::make('issued_date')
-                    ->label('Tarikh Dikeluarkan')
+                    ->label('Tarikh Didaftarkan')
                     ->required(),
-
-              
 
                 FileUpload::make('file_path')
                     ->label('Invois Dokumen')
-                    ->directory('invoices') // stored in storage/app/public/invoices
+                    ->directory('invoices')
                     ->disk('public')
                     ->preserveFilenames()
                     ->nullable()
-                    ->storeFileNamesIn('file_name'), // This automatically stores the original filename
+                    ->storeFileNamesIn('file_name'),
 
-                    FileUpload::make('file_path2')
-                ->label('Invois Dokumen 2')
-                ->directory('invoices/extra')
-                ->disk('public')
-                ->preserveFilenames()
-                ->storeFileNamesIn('file_name2'),
+                FileUpload::make('file_path2')
+                    ->label('Dokumen Peringatan Pertama')
+                    ->directory('invoices/extra')
+                    ->disk('public')
+                    ->preserveFilenames()
+                    ->storeFileNamesIn('file_name2')
+                    ->hidden(), // Hidden in form too (optional)
 
-            FileUpload::make('file_path3')
-                ->label('Invois Dokumen 3')
-                ->directory('invoices/extra')
-                ->disk('public')
-                ->preserveFilenames()
-                ->storeFileNamesIn('file_name3'),
-
+                FileUpload::make('file_path3')
+                    ->label('Dokumen Peringatan Kedua')
+                    ->directory('invoices/extra')
+                    ->disk('public')
+                    ->preserveFilenames()
+                    ->storeFileNamesIn('file_name3')
+                    ->hidden(), // Hidden in form too (optional)
 
                 TextInput::make('file_name')
                     ->label('Nama Fail')
-                    ->readonly() // Change from disabled() to readonly() so it can still be updated programmatically
-                    ->dehydrated(true) // Ensure it's included in form data
-                    ->hidden(), // Hide this field since it's automatically populated
-
+                    ->readonly()
+                    ->dehydrated(true)
+                    ->hidden(),
             ]);
-    }
-
-public static function getNavigationSort(): int
-    {
-        return 3;
     }
 
     public static function table(Table $table): Table
@@ -130,11 +123,23 @@ public static function getNavigationSort(): int
                     ->label('Nama Klien')
                     ->url(fn($record) => ViewProperties::getUrl(['record' => $record->client_id]))
                     ->openUrlInNewTab()
-                    ->color('primary')
+                    ->color('info')
                     ->formatStateUsing(fn($state) => "<span class='underline hover:text-blue-700'>$state</span>")
                     ->html()
                     ->sortable()
                     ->searchable(),
+      TextColumn::make('status')
+                    ->label('Status')
+                    ->sortable()
+                    ->color(static function ($state, $record) {
+                        return match ($record->status) {
+                            'pending' => 'warning',
+                            'overdue' => 'danger',
+                            'paid' => 'success',
+                            default => 'gray',
+                        };
+                    })
+                    ->badge(), // Shows as colored badge
 
                 TextColumn::make('property.nombor_kait')
                     ->label('Nombor Kait')
@@ -166,93 +171,93 @@ public static function getNavigationSort(): int
                     ->money('MYR')
                     ->sortable(),
 
-
-              TextColumn::make('property.file_name')
+                TextColumn::make('property.file_name')
                     ->label('Surat Iringan')
-                    ->url(fn($record) => $record->property->file_path
+                    ->url(fn($record) => $record->property && $record->property->file_path
                         ? asset('storage/' . $record->property->file_path)
                         : null)
                     ->openUrlInNewTab()
                     ->limit(30)
                     ->tooltip(fn($record) => $record->file_name),
-                    
-                    TextColumn::make('file_name')
+
+                TextColumn::make('file_name')
                     ->label('Invois')
                     ->url(fn($record) => $record->file_path
                         ? asset('storage/' . $record->file_path)
                         : null)
+                    ->openUrlInNewTab()
                     ->limit(30)
                     ->tooltip(fn($record) => $record->file_name),
 
-                      TextColumn::make('file_name2')
-                ->label('Peringatan Kedua')
-                ->url(fn($record) => $record->file_path2 ? asset('storage/' . $record->file_path2) : null)
-                ->openUrlInNewTab()
-                ->limit(25)
-                ->tooltip(fn($record) => $record->file_name2),
+          
+                TextColumn::make('due_date')
+                    ->label('Tarikh Akhir')
+                    ->formatStateUsing(fn($state) => $state?->format('Y-m-d')),
 
-            TextColumn::make('file_name3')
-                ->label('Peringatan Ketiga')
-                ->url(fn($record) => $record->file_path3 ? asset('storage/' . $record->file_path3) : null)
-                ->openUrlInNewTab()
-                ->limit(25)
-                ->tooltip(fn($record) => $record->file_name3),
-
-              
-
-                        TextColumn::make('status')
-                    ->label('Status')
-                    ->sortable()
-                    ->color(static function ($state, $record) {
-                        return $record->status === 'paid' ? 'success' : 'danger';
-                    }),
-
-                    
-               TextColumn::make('due_date')
-    ->label('Tarikh Akhir')
-    ->formatStateUsing(fn($state) => $state?->format('Y-m-d')),
-
-TextColumn::make('issued_date')
-    ->label('Tarikh Dikeluarkan')
-    ->formatStateUsing(fn($state) => $state?->format('Y-m-d')),
+                TextColumn::make('issued_date')
+                    ->label('Tarikh Didaftarkan')
+                    ->formatStateUsing(fn($state) => $state?->format('Y-m-d')),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('reminder_frequency')
+                SelectFilter::make('reminder_frequency')
                     ->label('Kekerapan Peringatan')
                     ->options([
-                        'bi-weekly' => '14 Hari',
-                        'monthly' => 'Bulanan',
+                        '1_minute' => '1 Minit',
+                        '7_days' => '7 Hari',
+                        '14_days' => '14 Hari',
+                        '30_days' => '30 Hari',
                     ]),
-                Tables\Filters\SelectFilter::make('status')
+
+                SelectFilter::make('status')
                     ->label('Status')
                     ->options([
                         'pending' => 'Pending',
-                        'paid' => 'Paid',
                         'overdue' => 'Overdue',
+                        // 'paid' => 'Paid' ← Removed so users can't filter paid (since not shown)
                     ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
 
-                Action::make('sendReminder')
-                    ->label('Send Reminder')
-                    ->icon('heroicon-o-bell')
+                Action::make('enableAutoReminders')
+                    ->label('Hantar Peringatan')
+                    ->icon('heroicon-s-bell')
+                    ->visible(fn($record) => $record->status !== 'paid')
+                    ->color(fn($record) => $record->reminders_sent_count === 0 ? 'info' : 'success')
                     ->action(function (Invoice $record) {
-                        $record->sendFirstReminder();
+                        $sent = $record->sendRecurringReminder();
+
+                        if ($sent) {
+                            if (empty($record->reminder_frequency)) {
+                                $record->reminder_frequency = '14_days';
+                                $record->save();
+                            }
+
+                            Notification::make()
+                                ->title('Peringatan Dihantar')
+                                ->body('Peringatan pertama telah dihantar! Peringatan seterusnya akan dihantar secara automatik.')
+                                ->success()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Failed to Send Reminder')
+                                ->body('No email was sent. Check mail configuration and client email address.')
+                                ->danger()
+                                ->send();
+                        }
                     })
-                    ->visible(fn(Invoice $record) => !$record->is_reminder_sent)
-                    ->requiresConfirmation()
-                    ->color('success'),
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
+                ->label('Padam'),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            // Add relation managers here if needed later
         ];
     }
 
@@ -265,6 +270,17 @@ TextColumn::make('issued_date')
         ];
     }
 
+    /**
+     * Filter only pending and overdue invoices.
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->whereIn('status', ['pending', 'overdue']) // 👈 Only show pending & overdue
+            ->orderByRaw("FIELD(status, 'pending','overdue','paid')")
+            ->orderByRaw("COALESCE(issued_date, created_at) DESC");
+    }
+
     public static function mutateFormDataBeforeCreate(array $data): array
     {
         if (!empty($data['file_path'])) {
@@ -273,7 +289,7 @@ TextColumn::make('issued_date')
 
         return $data;
     }
-  
+
     public static function mutateFormDataBeforeUpdate(array $data): array
     {
         if (!empty($data['file_path'])) {
@@ -282,12 +298,14 @@ TextColumn::make('issued_date')
 
         return $data;
     }
+
     public static function getNavigationLabel(): string
     {
-        return 'Invois';  // Change 'Home' to your desired dashboard name
+        return 'Invois';
     }
+
     public static function getPluralLabel(): string
     {
-        return 'Invois'; // new plural name
+        return 'Invois';
     }
 }

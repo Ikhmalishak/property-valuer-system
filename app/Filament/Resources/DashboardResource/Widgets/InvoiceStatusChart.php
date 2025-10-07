@@ -31,7 +31,7 @@ class InvoiceStatusChart extends ChartWidget
                     'data' => $counts,
                     'backgroundColor' => [
                         '#f59e0b', // amber-500 for pending
-                        '#10b981', // emerald-500 for paid
+                         '#0078D4', // emerald-500 for paid
                         '#ef4444', // red-500 for overdue
                     ],
                 ],

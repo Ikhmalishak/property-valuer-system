@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Peringatan Invois</title>
+    <title>{{ $title }}</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -33,8 +33,18 @@
         .button {
             display: inline-block;
             padding: 12px 24px;
-            margin: 20px 0;
+            margin: 10px 0;
             background-color: #3490dc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .link-button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px 0;
+            background-color: #10b981;
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -55,29 +65,34 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <h2>Peringatan Invois</h2>
+            <h2>{{ $emailTitle }}</h2>
         </div>
-
         <div class="content">
-            <p><strong>Tuan/Puan,</strong></p>
+            <p><strong>Kepada Pelanggan Yang Dihormati,</strong></p>
+            <p>Dengan segala hormatnya, perkara di atas adalah dirujuk.</p>
+            
+            @if ($reminderType === 'first')
+                <p>Bersama-sama ini kami lampirkan invois bagi bayaran berjumlah <strong>{{ $amount }}</strong> sebagai <strong>peringatan pertama</strong>.</p>
+            @elseif ($reminderType === 'second')
+                <p>Bersama-sama ini kami lampirkan invois bagi bayaran berjumlah <strong>{{ $amount }}</strong> sebagai <strong>peringatan kedua</strong>.</p>
+            @else
+                <p>Bersama-sama ini kami lampirkan invois bagi bayaran berjumlah <strong>{{ $amount }}</strong>.</p>
+            @endif
 
-            <p>Dengan segala hormatnya perkara di atas adalah dirujuk.</p>
-
-            <p>Bersama-sama ini dilampirkan invois bagi bayaran fi ikhtisas berjumlah <strong>{{ $amount }}</strong>.</p>
-
-            <p>Bayaran hendaklah dijelaskan dalam tempoh 14 hari melalui cek atau pindahan wang elektronik (EFT) atas nama <strong>Akauntan Negara Malaysia</strong>. Sekiranya bayaran dibuat secara EFT, mohon nyatakan rujukan pembayaran dengan format berikut: <strong>(Kod PTJ/{{ $invoice->invoice_number }})</strong>.</p>
-
-            <p>Untuk makluman, laporan penilaian hanya akan dikeluarkan setelah bayaran fi ikhtisas diterima sepenuhnya. Kerjasama pihak tuan/puan dalam menjelaskan bayaran dengan segera amatlah dihargai.</p>
-
-            <p>Sekian, terima kasih.</p>
+            <p>Sila jelaskan pembayaran bil invois ini dengan segera bagi mengelakkan sebarang kelewatan dalam proses seterusnya.</p>
 
             <div class="signature">
-                “MALAYSIA MADANI”<br>
-                “BERKHIDMAT UNTUK NEGARA”
+                "MALAYSIA MADANI"<br>
+                "BERKHIDMAT UNTUK NEGARA"<br><br>
+                <strong>Unit Kewangan<br>
+                Jabatan Penilaian dan Perkhidmatan Harta Teluk Intan</strong>
             </div>
 
-            <br>
-            <a href="{{ $url }}" class="button">Lihat Invois</a>
+            <!-- Button to view invoice -->
+            <a href="{{ $url }}" class="button" target="_blank">Lihat Invois</a>
+
+            <!-- New: Button to visit website in new tab -->
+            <a href="https://enotisjpph.xyz/" class="link-button" target="_blank">Pergi ke Portal e-Notis JPPH</a>
         </div>
 
         <div class="footer">

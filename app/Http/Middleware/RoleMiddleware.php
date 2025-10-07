@@ -9,21 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleMiddleware
 {
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (Auth::check() && Auth::user()->role == $this->resolveRoleValue($role)) {
-            return $next($request);
+        $user = Auth::user();
+
+        if (!$user || $user->role !== $role) {
+            abort(403, 'Unauthorized: insufficient role');
         }
 
-        abort(403, 'Unauthorized');
-    }
-
-    private function resolveRoleValue($role)
-    {
-        return match ($role) {
-            'user' => 1,
-            'admin' => 0,
-            default => null,
-        };
+        return $next($request);
     }
 }

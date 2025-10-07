@@ -15,15 +15,17 @@
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" class="font-medium text-gray-700"/>
-            <x-text-input id="password"
-                          class="block mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
-                          type="password"
-                          name="password"
-                          required autocomplete="current-password"/>
-            <x-input-error :messages="$errors->get('password')" class="mt-2"/>
-        </div>
+       <div class="mt-4">
+    <label for="password" class="font-medium text-gray-700">
+        Kata Laluan
+    </label>
+    <x-text-input id="password"
+                  class="block mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
+                  type="password"
+                  name="password"
+                  required autocomplete="current-password"/>
+    <x-input-error :messages="$errors->get('password')" class="mt-2"/>
+</div>
 
         <!-- Remember Me -->
         <div class="flex items-center mt-4">
@@ -44,7 +46,7 @@
 
             @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-700 hover:text-gray-900 transition" href="{{ route('password.request') }}">
-                    {{ __('Forgot password?') }}
+                    Lupa Kata Laluan?
                 </a>
             @endif
 

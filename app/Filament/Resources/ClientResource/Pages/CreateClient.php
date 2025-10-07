@@ -6,24 +6,36 @@ use App\Filament\Resources\ClientResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class CreateClient extends CreateRecord
 {
     protected static string $resource = ClientResource::class;
 
-    // Automatically assign the authenticated user's ID
+    // Automatically assign the correct user_id based on email
     protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
     {
-        $data['user_id'] = Auth::id(); // Get current logged-in user's ID
+        $email = $data['email'] ?? null;
+
+        // Find user by email
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            // If no user exists, create one? Or throw error?
+            return parent::handleRecordCreation($data);
+        }
+
+        // Set user_id from found user
+        $data['user_id'] = $user->id;
 
         return parent::handleRecordCreation($data);
     }
 
     public function getTitle(): string
     {
-        return 'Tambah Klien'; // page title
+        return 'Tambah Klien';
     }
-    // Change breadcrumb text
+
     public function getBreadcrumb(): string
     {
         return 'Cipta Klien';

@@ -32,6 +32,15 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('role')
                     ->required(),
+
+                    Forms\Components\TextInput::make('alamat_pejabat')
+    ->label('Alamat Pejabat')
+    ->columnSpanFull(),
+
+Forms\Components\TextInput::make('no_tel')
+    ->label('No. Tel')
+    ->tel(),
+
                 Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
@@ -65,6 +74,15 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
                     ->searchable(),
+
+                    Tables\Columns\TextColumn::make('no_tel')
+    ->label('No. Tel')
+    ->toggleable(),
+
+Tables\Columns\TextColumn::make('alamat_pejabat')
+    ->label('Alamat Pejabat')
+    ->toggleable()
+    ->limit(50),
             ])
             ->filters([
                 //

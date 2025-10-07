@@ -31,16 +31,32 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:' . User::class,
+                function ($attribute, $value, $fail) {
+                    $allowedDomains = ['gmail.com','arb.com.my','jpph.gov.my','gov.my'];
+                    $domain = strtolower(substr(strrchr($value, "@"), 1));
+                    if (!in_array($domain, $allowedDomains)) {
+                        $fail('The :attribute must be a JPPH or ARB company email address.');
+                    }
+                }
+            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'alamat_pejabat' => ['nullable', 'string', 'max:1000'],
+            'no_tel' => ['nullable', 'string', 'max:20'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => "user", 
-
+            'alamat_pejabat' => $request->alamat_pejabat,
+            'no_tel' => $request->no_tel,
+            'role' => 'client',
         ]);
 
         event(new Registered($user));

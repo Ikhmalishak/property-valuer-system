@@ -2,6 +2,7 @@
     <x-slot name="header">
         @include('includes.header')
     </x-slot>
+
     <main class="container mx-auto px-4 py-8">
         <!-- Hero Section -->
         <section class="bg-white rounded-lg shadow-lg overflow-hidden mb-10">
@@ -14,8 +15,8 @@
                         <button type="button" class="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Hubungi Kami</button>
                     </div>
                 </div>
-                <div class="md:w-1/2 h-[300]">
-                    <img src="{{ asset('images/images12.jpeg') }}" alt="Gambar Hartanah" class="w-full h-[500px] object-cover" />
+                <div class="md:w-1/2 h-[500px]">
+                    <img src="{{ asset('images/images12.jpeg') }}" alt="Gambar Hartanah" class="w-full h-full object-cover" />
                 </div>
             </div>
         </section>
@@ -28,9 +29,8 @@
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                     <img src="{{ asset('images/image1.jpg') }}" alt="Penilaian Komersial" class="w-full h-48 object-cover" />
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Penilaian dan Perkhidmatan Harta
-                        </h3>
-                        <p class="text-gray-600 mb-4">JPPH memberi nasihat kepada Kerajaan mengenai perkara berkaitan dengan penilaian dan perkhidmatan harta.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Penilaian dan Perkhidmatan Harta</h3>
+                        <p class="text-gray-600 mb-4">JPPH memberi nasihat kepada Kerajaan mengenai perkara berkaitan dengan penilaian dan perkhidmatan harta.</p>
                         <a href="/about" class="text-blue-700 hover:text-blue-800 font-medium text-sm inline-flex items-center">
                             Ketahui Lebih Lanjut
                             <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -38,7 +38,6 @@
                             </svg>
                         </a>
                     </div>
-
                 </div>
 
                 <!-- Service Card 2 -->
@@ -54,7 +53,6 @@
                             </svg>
                         </a>
                     </div>
-
                 </div>
 
                 <!-- Service Card 3 -->
@@ -62,7 +60,7 @@
                     <img src="{{ asset('images/image1.jpg') }}" alt="Penilaian Rumah" class="w-full h-48 object-cover" />
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Latihan, Penyelidikan dan Pendidikan</h3>
-                        <p class="text-gray-600 mb-4">INSPEN menjadi penggerak utama dalam membangun pengetahuan dan kemahiran modal insan melalui latihan,penyelidikan dan pendidikan dalam bidang harta tanah di rantau Asian.</p>
+                        <p class="text-gray-600 mb-4">INSPEN menjadi penggerak utama dalam membangun pengetahuan dan kemahiran modal insan melalui latihan, penyelidikan dan pendidikan dalam bidang harta tanah di rantau Asia.</p>
                         <a href="/about" class="text-blue-700 hover:text-blue-800 font-medium text-sm inline-flex items-center">
                             Ketahui Lebih Lanjut
                             <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -146,5 +144,7 @@
                 </div>
             </div>
         </section>
+
+     
     </main>
 </x-layouts.app>

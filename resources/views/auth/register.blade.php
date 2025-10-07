@@ -16,6 +16,32 @@
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
+        <!-- Alamat Pejabat -->
+<div class="mt-4">
+    <x-input-label for="alamat_pejabat" :value="__('Alamat Pejabat')" />
+    <x-text-input 
+        id="alamat_pejabat" 
+        class="block mt-1 w-full" 
+        type="text" 
+        name="alamat_pejabat" 
+        :value="old('alamat_pejabat')" 
+        autocomplete="office-address" 
+    />
+    <x-input-error :messages="$errors->get('alamat_pejabat')" class="mt-2" />
+</div>
+<!-- No. Tel -->
+<div class="mt-4">
+    <x-input-label for="no_tel" :value="__('No. Tel')" />
+    <x-text-input 
+        id="no_tel" 
+        class="block mt-1 w-full" 
+        type="tel" 
+        name="no_tel" 
+        :value="old('no_tel')" 
+        autocomplete="tel" 
+    />
+    <x-input-error :messages="$errors->get('no_tel')" class="mt-2" />
+</div>
 
         <!-- Password -->
         <div class="mt-4">
